@@ -1,6 +1,6 @@
 
 ---
-- name: Configurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
+- name: CConfigurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
   hosts: localhost
   connection: local
   gather_facts: false

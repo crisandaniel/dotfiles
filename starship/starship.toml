@@ -6,6 +6,7 @@ $kubernetes\
 $aws\
 $directory\
 $git_branch\
+$git_status\
 $package\
 $nodejs\
 $php\
@@ -49,6 +50,17 @@ style = "bold cyan"
 [git_branch]
 symbol = " "
 style = "bold purple"
+
+# ADAUGAT: Indicatori vizuali moderni pentru fișiere modificate/noi și starea de push/pull
+[git_status]
+modified = "   "      # Păstrat spațiul gol definit de tine
+untracked = " "     
+staged = "   "        # Păstrat spațiul gol definit de tine
+deleted = "   "       # Păstrat spațiul gol definit de tine
+ahead = "⇡ "         
+behind = "⇣ "        
+style = "bold red"     
+format = "([\\[$all_status$ahead_behind\\]]($style) )"
+
 [gcloud]
 disabled = true
-
