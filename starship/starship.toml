@@ -1,0 +1,54 @@
+
+# Schimbăm ordinea elementelor de pe ecran (Formatul liniei)
+format = """
+$character\
+$kubernetes\
+$aws\
+$directory\
+$git_branch\
+$package\
+$nodejs\
+$php\
+$line_break\
+$character"""
+
+# =============================================================================
+# 1. CONFIGURARE MOTOR VIM (zsh-vi-mode integration)
+# =============================================================================
+[character]
+success_symbol = "[🅨 ](bold green) ❯"
+error_symbol = "[🅨 ](bold green) ❯"
+# Trucul critic: Când apeși ESC, simbolul de la început își schimbă culoarea și textul!
+vimcmd_symbol = "[🅝 ](bold yellow) ❯"
+vimcmd_visual_symbol = "[🅥 ](bold cyan) ❯"
+vimcmd_replace_symbol = "[🅡 ](bold red) ❯"
+
+# =============================================================================
+# 2. CONFIGURARE KUBERNETES CONTEXT
+# =============================================================================
+[kubernetes]
+disabled = false
+format = 'via [⎈ $context]($style) '
+style = "bold blue"
+
+# =============================================================================
+# 3. CONFIGURARE AWS PROFILE
+# =============================================================================
+[aws]
+disabled = false
+format = 'on [☁️ $profile]($style) '
+style = "bold orange"
+
+# =============================================================================
+# 4. OPTIMIZĂRI DE DESIGN PENTRU LIMBAJE
+# =============================================================================
+[directory]
+truncation_length = 3
+style = "bold cyan"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+[gcloud]
+disabled = true
+

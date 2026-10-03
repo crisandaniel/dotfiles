@@ -1,0 +1,80 @@
+---
+- name: Configurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    home_dir: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+    # 1. Ne asiguram ca managerul de pachete Homebrew este instalat
+    - name: Verifica sau instaleaza Homebrew
+      ansible.builtin.shell: |
+        if ! command -v brew &> /dev/null; then
+          /bin/bash -c "$(curl -fsSL https://githubusercontent.com)"
+        fi
+      register: brew_check
+      changed_when: false
+
+    # 2. Instalam aplicatiile necesare din Homebrew
+    - name: Instaleaza Starship prin Homebrew (CLI)
+      community.general.homebrew:
+        name: starship
+        state: present
+
+    - name: Instaleaza iTerm2 prin Homebrew (GUI/Cask)
+      community.general.homebrew_cask:
+        name: iterm2
+        state: present
+
+    # 3. Pregatim folderele de sistem necesare
+    - name: Asigura existenta directoarelor de configurare (~/.config, ~/apps, ~/.local/bin)
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ home_dir }}/.config"
+        - "{{ home_dir }}/apps"
+        - "{{ home_dir }}/.local/bin"
+
+    # 4. DEZARHIVARE NEOVIM DIN PACHETUL LOCAL
+    - name: Dezarhiveaza pachetul local Neovim ARM64 in ~/apps
+      ansible.builtin.unarchive:
+        src: "{{ playbook_dir }}/nvim-macos-arm64.tar.gz"
+        dest: "{{ home_dir }}/apps"
+        remote_src: false
+        creates: "{{ home_dir }}/apps/nvim-macos-arm64"
+
+    # 5. Cream symlink-ul pentru comanda nvim in PATH
+    - name: Creeaza legatura binara pentru comanda nvim
+      ansible.builtin.file:
+        src: "{{ home_dir }}/apps/nvim-macos-arm64/bin/nvim"
+        dest: "{{ home_dir }}/.local/bin/nvim"
+        state: link
+        force: true
+
+    # 6. Link-ul pentru folderul complet de configurare Neovim
+    - name: Aplica configurarea pentru Neovim
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/nvim"
+        dest: "{{ home_dir }}/.config/nvim"
+        state: link
+        force: true
+
+    # 7. Link-ul pentru configurarea Starship (din subfolderul tau)
+    - name: Aplica configurarea pentru Starship
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/starship/starship.toml"
+        dest: "{{ home_dir }}/.config/starship.toml"
+        state: link
+        force: true
+
+    # 8. Link-ul pentru .zshrc in folderul Home cu numele corect
+    - name: Aplica configurarea pentru Zsh (.zshrc)
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/zsh/.zshrc"
+        dest: "{{ home_dir }}/.zshrc"
+        state: link
+        force: true
