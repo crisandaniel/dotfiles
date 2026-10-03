@@ -1,6 +1,5 @@
-
 ---
-- name: CConfigurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
+- name: Configurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
   hosts: localhost
   connection: local
   gather_facts: false
@@ -38,32 +37,43 @@
     # 2. Instalam aplicatiile necesare din Homebrew
     - name: Instaleaza utilitarele CLI prin Homebrew
       community.general.homebrew:
-        name:
-          - starship
-          - tree
-          - tree-sitter
-          - tree-sitter-cli
-          - ripgrep
-          - fd
-          - gnu-tar
-          - gnupg                 # Instalează gpgconf
-          - rbenv                 # Instalează rbenv
-          - pyenv                 # Instalează pyenv
-          - kubernetes-cli        # Instalează kubectl
-          - zsh-syntax-highlighting  # Instalează plugin-ul de sintaxă
+        name: "{{ item }}"
         state: present
+        update_homebrew: false  # <-- Previne scanarea lentă a întregului catalog la fiecare pas
+        path: /opt/homebrew/bin
+      loop:
+        - starship
+        - tree
+        - tree-sitter
+        - tree-sitter-cli
+        - ripgrep
+        - fd
+        - gnu-tar
+        - gnupg
+        - rbenv
+        - pyenv
+        - kubernetes-cli
+        - zsh-syntax-highlighting     
+      throttle: 1   
 
     - name: Instaleaza iTerm2 prin Homebrew (GUI/Cask)
       community.general.homebrew_cask:
         name: iterm2
         state: present
+        path: /opt/homebrew/bin
         accept_external_apps: true
+        install_options: 
+          - "--force"                  # <-- Forțează suprascrierea în caz că există deja o versiune manuală
       ignore_errors: true
-
+          
     - name: Instaleaza JetBrains Mono Nerd Font prin Homebrew (Cask)
       community.general.homebrew_cask:
         name: font-jetbrains-mono-nerd-font
         state: present
+        path: /opt/homebrew/bin        # <-- Forțează calea nativă de M4 Pro
+        accept_external_apps: true
+        install_options: 
+          - "--force"                  # <-- Forțează suprascrierea dacă fișierele TTF există deja
 
     # 3. Pregatim folderele de sistem necesare
     - name: Asigura existenta directoarelor de configurare (~/.config, ~/apps, ~/.local/bin)
@@ -83,7 +93,14 @@
       args:
         creates: "{{ home_dir }}/apps/nvim-macos-arm64"
 
-    # 5. Cream symlink-ul pentru comanda nvim in PATH
+    # 5. Cream symlink-ul pentru comanda nvim in PATH (cu Backup integrat)
+    - name: Face backup la binarul nvim existent daca nu e deja symlink
+      ansible.builtin.shell: |
+        if [ -e "{{ home_dir }}/.local/bin/nvim" ] && [ ! -L "{{ home_dir }}/.local/bin/nvim" ]; then
+          mv "{{ home_dir }}/.local/bin/nvim" "{{ home_dir }}/.local/bin/nvim.backup"
+        fi
+      failed_when: false
+
     - name: Creeaza legatura binara pentru comanda nvim
       ansible.builtin.file:
         src: "{{ home_dir }}/apps/nvim-macos-arm64/bin/nvim"
@@ -91,7 +108,14 @@
         state: link
         force: true
 
-    # 6. Link-ul pentru folderul complet de configurare Neovim
+    # 6. Link-ul pentru folderul complet de configurare Neovim (cu Backup integrat)
+    - name: Face backup la folderul nvim existent din .config
+      ansible.builtin.shell: |
+        if [ -e "{{ home_dir }}/.config/nvim" ] && [ ! -L "{{ home_dir }}/.config/nvim" ]; then
+          mv "{{ home_dir }}/.config/nvim" "{{ home_dir }}/.config/nvim.backup"
+        fi
+      failed_when: false
+
     - name: Aplica configurarea pentru Neovim
       ansible.builtin.file:
         src: "{{ playbook_dir }}/nvim"
@@ -99,7 +123,14 @@
         state: link
         force: true
     
-    # 7. Link-ul pentru configurarea Starship (din subfolderul tau)
+    # 7. Link-ul pentru configurarea Starship (cu Backup integrat)
+    - name: Face backup la fisierul starship.toml existent
+      ansible.builtin.shell: |
+        if [ -e "{{ home_dir }}/.config/starship.toml" ] && [ ! -L "{{ home_dir }}/.config/starship.toml" ]; then
+          mv "{{ home_dir }}/.config/starship.toml" "{{ home_dir }}/.config/starship.toml.backup"
+        fi
+      failed_when: false
+
     - name: Aplica configurarea pentru Starship
       ansible.builtin.file:
         src: "{{ playbook_dir }}/starship/starship.toml"
@@ -124,7 +155,14 @@
       register: zvm_clone
       changed_when: "zvm_clone.stdout is search('Cloning into')"
 
-    # 8. Link-ul pentru .zshrc in folderul Home cu numele corect
+    # 8. Link-ul pentru .zshrc in folderul Home cu numele corect (cu Backup integrat)
+    - name: Face backup la fisierul .zshrc existent
+      ansible.builtin.shell: |
+        if [ -e "{{ home_dir }}/.zshrc" ] && [ ! -L "{{ home_dir }}/.zshrc" ]; then
+          mv "{{ home_dir }}/.zshrc" "{{ home_dir }}/.zshrc.backup"
+        fi
+      failed_when: false
+
     - name: Aplica configurarea pentru Zsh (.zshrc)
       ansible.builtin.file:
         src: "{{ playbook_dir }}/zsh/.zshrc"

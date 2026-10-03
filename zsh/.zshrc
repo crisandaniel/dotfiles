@@ -11,7 +11,7 @@ if [[ -z "$HOMEBREW_PREFIX" ]]; then
 fi
 
 # Încarcă mediul personal
-# source ~/.zsh_env
+source ~/.zsh_env
 
 # Fix pentru pluginul zsh-vi-mode (Oprește eroarea "widgets can only be called when ZLE is active")
 export ZVM_INIT_MODE=sourcing
