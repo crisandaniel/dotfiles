@@ -2,23 +2,24 @@
 # 1. VARIABILE DE MEDIU ȘI CĂI GLOBALE (PATH)
 # =============================================================================
 # Setare căi de bază
+export ZSH="$HOME/.oh-my-zsh"
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/opt/homebrew/bin:$PATH
-
-# Încarcă mediul personal
-source ~/.zsh_env
-
-# Fix pentru pluginul zsh-vi-mode (Oprește eroarea "widgets can only be called when ZLE is active")
-export ZVM_INIT_MODE=sourcing
 
 # Încarcă Homebrew nativ (Apple Silicon) o singură dată pe sesiune
 if [[ -z "$HOMEBREW_PREFIX" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# Încarcă mediul personal
+# source ~/.zsh_env
+
+# Fix pentru pluginul zsh-vi-mode (Oprește eroarea "widgets can only be called when ZLE is active")
+export ZVM_INIT_MODE=sourcing
+
+
 # =============================================================================
 # 2. CONFIGURARE OH MY ZSH
 # =============================================================================
-export ZSH="$HOME/.oh-my-zsh"
 
 # COMENTAT PENTRU OPTIMIZARE: Dezactivăm Agnoster deoarece Starship controlează acum promptul
 # ZSH_THEME="agnoster"
@@ -143,7 +144,7 @@ alias vim=nvim
 alias vi=nvim
 
 # Evidențiere sintaxă în consolă (Zsh Syntax Highlighting)
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # LANSARE STARSHIP (Trebuie rulat la final pentru a asigura randarea optimă)
 eval "$(starship init zsh)"

@@ -18,15 +18,29 @@
       changed_when: false
 
     # 2. Instalam aplicatiile necesare din Homebrew
-    - name: Instaleaza Starship prin Homebrew (CLI)
+    - name: Instaleaza utilitarele CLI prin Homebrew
       community.general.homebrew:
-        name: starship
+        name:
+          - starship
+          - tree
+          - tree-sitter
+          - tree-sitter-cli
+          - ripgrep
+          - fd
+          - gnu-tar
+          - gnupg                 # Instalează gpgconf
+          - rbenv                 # Instalează rbenv
+          - pyenv                 # Instalează pyenv
+          - kubernetes-cli        # Instalează kubectl
+          - zsh-syntax-highlighting  # Instalează plugin-ul de sintaxă
         state: present
 
     - name: Instaleaza iTerm2 prin Homebrew (GUI/Cask)
       community.general.homebrew_cask:
         name: iterm2
         state: present
+        accept_external_apps: true
+      ignore_errors: true
 
     # 3. Pregatim folderele de sistem necesare
     - name: Asigura existenta directoarelor de configurare (~/.config, ~/apps, ~/.local/bin)
@@ -41,10 +55,9 @@
 
     # 4. DEZARHIVARE NEOVIM DIN PACHETUL LOCAL
     - name: Dezarhiveaza pachetul local Neovim ARM64 in ~/apps
-      ansible.builtin.unarchive:
-        src: "{{ playbook_dir }}/nvim-macos-arm64.tar.gz"
-        dest: "{{ home_dir }}/apps"
-        remote_src: false
+      ansible.builtin.shell: |
+        tar -xzf "{{ playbook_dir }}/nvim-macos-arm64.tar.gz" -C "{{ home_dir }}/apps"
+      args:
         creates: "{{ home_dir }}/apps/nvim-macos-arm64"
 
     # 5. Cream symlink-ul pentru comanda nvim in PATH
@@ -62,7 +75,7 @@
         dest: "{{ home_dir }}/.config/nvim"
         state: link
         force: true
-
+    
     # 7. Link-ul pentru configurarea Starship (din subfolderul tau)
     - name: Aplica configurarea pentru Starship
       ansible.builtin.file:
@@ -70,6 +83,22 @@
         dest: "{{ home_dir }}/.config/starship.toml"
         state: link
         force: true
+    
+    # 7b. INSTALARE AUTOMATĂ OH MY ZSH (Forțată dacă există deja .zshrc)
+    - name: Verifica sau instaleaza Oh My Zsh
+      ansible.builtin.shell: |
+        if [ ! -d "{{ home_dir }}/.oh-my-zsh" ]; then
+          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+        fi
+      register: omz_install
+      changed_when: "'Installing Oh My Zsh' in omz_install.stdout"
+
+    - name: Descarca plugin-ul zsh-vi-mode pentru Oh My Zsh
+      ansible.builtin.git:
+        repo: 'https://github.com/jeffreytse/zsh-vi-mode'
+        dest: "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
+        depth: 1
+
 
     # 8. Link-ul pentru .zshrc in folderul Home cu numele corect
     - name: Aplica configurarea pentru Zsh (.zshrc)
