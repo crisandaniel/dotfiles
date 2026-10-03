@@ -128,9 +128,6 @@ export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 # Crowdin CLI
 export PATH="/usr/local/opt/crowdin@4/bin:$PATH"
 
-# API Keys
-export YOUTUBE_API_KEY=AIzaSyC1wK9drpdO4Me3S3IC71UuGb01E48RiEM
-
 # =============================================================================
 # 7. ALIAS-URI, COMPLETĂRI AUTOMATE ȘI LANSARE MOTOARE PROMPT
 # =============================================================================
