@@ -1,3 +1,4 @@
+
 ---
 - name: Configurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
   hosts: localhost
@@ -8,6 +9,23 @@
     home_dir: "{{ lookup('env', 'HOME') }}"
 
   tasks:
+    # 0. MECANISM DE SIGURANȚĂ: Verifică dacă scriptul rulează în iTerm2 și îl închide instantaneu
+    - name: Verifica daca scriptul este rulat din iTerm
+      ansible.builtin.set_fact:
+        is_iterm: "{{ lookup('env', 'TERM_PROGRAM') == 'iTerm.app' }}"
+
+    - name: Oprește scriptul și închide iTerm2 dacă este deschis
+      block:
+        - name: Inchide fortat iTerm2 prin semnal de sistem (Previne suprascrierea setarilor)
+          ansible.builtin.shell: killall -9 iTerm2
+          failed_when: false
+          changed_when: true
+
+        - name: Blochează execuția și cere utilizatorului să ruleze din Terminal.app
+          ansible.builtin.fail:
+            msg: "EROARE: Scriptul a detectat rularea din iTerm2 și a oprit aplicația. Te rugăm să deschizi aplicația nativă 'Terminal.app' de pe Mac și să rerulezi comanda: ansible-playbook setup.yml"
+      when: is_iterm
+
     # 1. Ne asiguram ca managerul de pachete Homebrew este instalat
     - name: Verifica sau instaleaza Homebrew
       ansible.builtin.shell: |
@@ -41,6 +59,11 @@
         state: present
         accept_external_apps: true
       ignore_errors: true
+
+    - name: Instaleaza JetBrains Mono Nerd Font prin Homebrew (Cask)
+      community.general.homebrew_cask:
+        name: font-jetbrains-mono-nerd-font
+        state: present
 
     # 3. Pregatim folderele de sistem necesare
     - name: Asigura existenta directoarelor de configurare (~/.config, ~/apps, ~/.local/bin)
@@ -88,17 +111,18 @@
     - name: Verifica sau instaleaza Oh My Zsh
       ansible.builtin.shell: |
         if [ ! -d "{{ home_dir }}/.oh-my-zsh" ]; then
-          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+          sh -c "$(curl -fsSL https://githubusercontent.com)" "" --unattended --keep-zshrc
         fi
       register: omz_install
       changed_when: "'Installing Oh My Zsh' in omz_install.stdout"
 
     - name: Descarca plugin-ul zsh-vi-mode pentru Oh My Zsh
-      ansible.builtin.git:
-        repo: 'https://github.com/jeffreytse/zsh-vi-mode'
-        dest: "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
-        depth: 1
-
+      ansible.builtin.shell: |
+        if [ ! -d "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode" ]; then
+          git clone --depth=1 https://github.com "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
+        fi
+      register: zvm_clone
+      changed_when: "zvm_clone.stdout is search('Cloning into')"
 
     # 8. Link-ul pentru .zshrc in folderul Home cu numele corect
     - name: Aplica configurarea pentru Zsh (.zshrc)
@@ -107,3 +131,38 @@
         dest: "{{ home_dir }}/.zshrc"
         state: link
         force: true
+
+    # 9. REPARAT: Configurare nativă și precisă a preferințelor macOS pentru profilul iTerm2
+    - name: Injecteaza configurarea JetBrainsMono Nerd Font in plista iTerm2
+      ansible.builtin.shell: |
+        python3 -c "
+        import plistlib
+        import os
+
+        plist_path = os.path.expanduser('~/Library/Preferences/com.googlecode.iterm2.plist')
+        
+        if os.path.exists(plist_path):
+            with open(plist_path, 'rb') as f:
+                try:
+                    data = plistlib.load(f)
+                except Exception:
+                    data = {}
+        else:
+            data = {}
+
+        # Profilele sunt salvate in cheia 'New Bookmarks'
+        profiles = data.get('New Bookmarks', [])
+        if not profiles:
+            profiles = [{'Name': 'Default'}]
+
+        for profile in profiles:
+            profile['Normal Font'] = 'JetBrainsMonoNF-Regular 14'
+            profile['Non Ascii Font'] = 'JetBrainsMonoNF-Regular 14'
+            profile['Use Non-ASCII Font'] = True
+
+        data['New Bookmarks'] = profiles
+
+        with open(plist_path, 'wb') as f:
+            plistlib.dump(data, f)
+        "
+      changed_when: true
