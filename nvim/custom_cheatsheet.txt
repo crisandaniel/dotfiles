@@ -1,0 +1,281 @@
+## vim-global
+Deschide help pentru un cuvânt cheie | :h keyword
+Salvează fișierul ca | :saveas file
+Închide panoul curent | :close
+Deschide terminal | :terminal
+Afișează pagina man pentru cuvântul de sub cursor | K
+Repetă ultima comandă | .
+Repetă ultima comandă de linie (:) | @:
+
+## vim-miscare-cursor
+Stânga / jos / sus / dreapta | h j k l
+Jos / sus pe linii afișate (wrap) | gj gk
+Sus în ecran | H
+Mijlocul ecranului | M
+Jos în ecran | L
+Început de cuvânt următor | w
+Început de CUVÂNT următor (cu punctuație) | W
+Sfârșit de cuvânt | e
+Sfârșit de CUVÂNT | E
+Înapoi la început de cuvânt | b
+Înapoi la început de CUVÂNT | B
+Sfârșitul cuvântului anterior | ge
+Sfârșitul CUVÂNTULUI anterior | gE
+Salt la perechea de paranteză | %
+Început de linie | 0
+Primul caracter non-blank al liniei | ^
+Sfârșit de linie | $
+Ultimul caracter non-blank al liniei | g_
+Prima linie din document | gg
+Ultima linie din document | G
+Salt la linia 5 | 5gg sau 5G
+Salt la definiția locală | gd
+Salt la definiția globală | gD
+Salt la următoarea apariție a caracterului x | fx
+Salt înainte de următoarea apariție a lui x | tx
+Salt la apariția anterioară a lui x | Fx
+Salt după apariția anterioară a lui x | Tx
+Repetă f/t/F/T înainte | ;
+Repetă f/t/F/T înapoi | ,
+Paragraful următor / funcție / bloc | }
+Paragraful anterior / funcție / bloc | {
+Centrează cursorul pe ecran | zz
+Linia cursorului sus în ecran | zt
+Linia cursorului jos în ecran | zb
+Mută ecranul în jos o linie | Ctrl-e
+Mută ecranul în sus o linie | Ctrl-y
+Pagină în jos | Ctrl-f
+Pagină în sus | Ctrl-b
+Jumătate de ecran în jos | Ctrl-d
+Jumătate de ecran în sus | Ctrl-u
+
+## vim-insert-mode
+Insert înainte de cursor | i
+Insert la începutul liniei | I
+Append după cursor | a
+Append la sfârșitul liniei | A
+Linie nouă sub linia curentă | o
+Linie nouă deasupra liniei curente | O
+Append la sfârșitul cuvântului | ea
+Șterge caracterul înainte de cursor (insert) | Ctrl-h
+Șterge cuvântul înainte de cursor (insert) | Ctrl-w
+Linie nouă (insert) | Ctrl-j
+Indentează linia cu un shiftwidth (insert) | Ctrl-t
+Deindentează linia cu un shiftwidth (insert) | Ctrl-d
+Autocompletare cuvânt următor (insert) | Ctrl-n
+Autocompletare cuvânt anterior (insert) | Ctrl-p
+Inserează conținutul registrului x (insert) | Ctrl-rx
+Autocompletare în contextul curent / omni (insert) | Ctrl-ox
+Rulează o comandă normal mode temporar (insert) | Ctrl-o
+Ieșire din insert mode | Esc sau Ctrl-c
+
+## vim-editare
+Înlocuiește un singur caracter | r
+Intră în Replace mode | R
+Unește linia de dedesubt cu un spațiu | J
+Unește linia de dedesubt fără spațiu | gJ
+Reformatează liniile | gwip
+Schimbă litere mici/mari până la o mișcare | g~
+Transformă în litere mici până la o mișcare | gu
+Transformă în litere mari până la o mișcare | gU
+Schimbă (înlocuiește) toată linia | cc
+Schimbă până la sfârșitul liniei | c$ sau C
+Schimbă tot cuvântul | ciw
+Schimbă până la sfârșitul cuvântului | cw sau ce
+Șterge caracterul și intră în insert | s
+Șterge linia și intră în insert | S
+Transpune două litere | xp
+Undo | u
+Undo pe toată linia | U
+Redo | Ctrl-r
+Incrementează numărul de sub cursor | Ctrl-a
+Decrementează numărul de sub cursor | Ctrl-x
+
+## vim-visual-mode
+Pornește visual mode | v
+Pornește visual mode pe linie | V
+Pornește visual mode bloc | Ctrl-v
+Selectează din nou ultima selecție | gv
+Mergi la celălalt capăt al selecției | o
+Selectează un cuvânt (cu spațiu) | aw
+Selectează un bloc cu () | ab
+Selectează un bloc cu {} | aB
+Selectează un bloc cu <> | at
+Selectează interiorul unui bloc () | ib
+Selectează interiorul unui bloc {} | iB
+Selectează interiorul unui bloc <> | it
+Ieșire din visual mode | Esc sau Ctrl-c
+Shift text la dreapta (visual) | >
+Shift text la stânga (visual) | <
+Copiază selecția (visual) | y
+Șterge selecția (visual) | d
+Schimbă literele mici/mari (visual) | ~
+Transformă în litere mici (visual) | u
+Transformă în litere mari (visual) | U
+
+## vim-registre
+Afișează conținutul registrelor | :reg
+Copiază în registrul x | "xy
+Lipește conținutul registrului x | "xp
+Copiază în clipboard-ul sistemului | "+y
+Lipește din clipboard-ul sistemului | "+p
+Registru: ultimul text inserat | ".
+Registru: numele fișierului curent | "%
+Registru: ultima comandă : | ":
+Registru: ultimul yank | "0
+Registru: ultima ștergere/schimbare | "1
+Registru: ultima căutare | "/
+Registru: selecția X11 (mouse) | "*
+Registrul black hole (nu salvează) | "_
+
+## vim-markuri-pozitii
+Listă de markuri | :marks
+Setează markul a la poziția curentă | ma
+Salt la poziția markului a | `a
+Salt la linia markului a | 'a
+Copiază până la markul a | y`a
+Salt la poziția unde s-a ieșit ultima dată din vim | `0
+Salt la poziția din ultimul fișier editat | `"
+Salt la poziția ultimei modificări | `.
+Salt la poziția dinaintea ultimului salt | ``
+Listă de salturi (jumplist) | :ju
+Salt la poziția următoare din jumplist | Ctrl-i
+Salt la poziția anterioară din jumplist | Ctrl-o
+Listă de modificări | :changes
+Salt la poziția următoare din changelist | g,
+Salt la poziția anterioară din changelist | g;
+Salt la tag-ul de sub cursor | Ctrl-]
+
+## vim-macrouri
+Înregistrează macro a | qa
+Oprește înregistrarea macro | q
+Rulează macro a | @a
+Rulează ultimul macro rulat | @@
+Rulează macro a pe liniile selectate | :'<,'>normal @a
+
+## vim-copiere-lipire
+Copiază o linie (yank) | yy
+Copiază 2 linii | 2yy
+Copiază caracterele cuvântului de la cursor | yw
+Copiază cuvântul de sub cursor | yiw
+Copiază cuvântul cu spațiul de după | yaw
+Copiază până la sfârșitul liniei | y$ sau Y
+Lipește după cursor | p
+Lipește înainte de cursor | P
+Lipește după cursor și mută cursorul după text | gp
+Lipește înainte de cursor și mută cursorul după text | gP
+Șterge (taie) o linie | dd
+Șterge 2 linii | 2dd
+Șterge caracterele cuvântului de la cursor | dw
+Șterge cuvântul de sub cursor | diw
+Șterge cuvântul cu spațiul de după | daw
+Șterge liniile 3-5 | :3,5d
+Șterge toate liniile care conțin pattern | :g/pattern/d
+Șterge toate liniile care NU conțin pattern | :g!/pattern/d
+Șterge până la sfârșitul liniei | d$ sau D
+Șterge (taie) un caracter | x
+
+## vim-indentare
+Indentează linia la dreapta | >>
+Indentează linia la stânga | <<
+Indentează un bloc cu () sau {} | >%
+Indentează interiorul unui bloc () | >ib
+Indentează interiorul unui bloc {} | >iB
+Re-indentează tot fișierul | gg=G
+Re-indentează interiorul unui bloc () | =ib
+Re-indentează interiorul unui bloc {} | =iB
+Lipește și ajustează indentarea | ]p
+
+## vim-iesire
+Salvează fișierul | :w
+Salvează cu sudo | :w !sudo tee %
+Salvează și ieși | :wq sau :x sau ZZ
+Ieși (eșuează dacă sunt modificări nesalvate) | :q
+Ieși fără salvare | :q! sau ZQ
+Salvează și ieși din toate tab-urile | :wqa
+
+## vim-cautare-inlocuire
+Caută înainte | /pattern
+Caută înapoi | ?pattern
+Caută ca regex foarte magic | \vpattern
+Repetă căutarea în aceeași direcție | n
+Repetă căutarea în direcție opusă | N
+Caută cuvântul de sub cursor înainte | *
+Caută cuvântul de sub cursor înapoi | #
+Înlocuiește în tot fișierul | :%s/old/new/g
+Înlocuiește în tot fișierul cu confirmare | :%s/old/new/gc
+Înlocuiește în linia curentă | :s/old/new/g
+Șterge evidențierea căutării | :noh
+Rulează o comandă pe liniile care conțin pattern | :g/pattern/cmd
+
+## vim-cautare-fisiere-multiple
+Caută pattern în mai multe fișiere | :vimgrep /pattern/ **/*
+Salt la potrivirea următoare (quickfix) | :cn
+Salt la potrivirea anterioară (quickfix) | :cp
+Deschide fereastra quickfix | :copen
+Închide fereastra quickfix | :cclose
+Rulează comanda pe toate intrările quickfix | :cdo cmd
+
+## vim-taburi
+Deschide fișier în tab nou | :tabnew file
+Mută fereastra curentă în tab propriu | Ctrl-w T
+Tab-ul următor | gt sau :tabn
+Tab-ul anterior | gT sau :tabp
+Salt la tab-ul numărul 3 | 3gt
+Mută tab-ul curent pe poziția 1 | :tabm 0
+Închide tab-ul curent | :tabc
+Închide toate tab-urile în afară de cel curent | :tabo
+Rulează comanda pe toate tab-urile | :tabdo cmd
+
+## vim-buffere
+Editează un fișier într-un buffer nou | :e file
+Buffer-ul următor | :bn
+Buffer-ul anterior | :bp
+Șterge buffer-ul (închide fișierul) | :bd
+Deschide buffer-ul cu numărul 1 | :b1
+Deschide buffer după nume | :b file
+Listă de buffere | :ls
+Deschide toate bufferele ca ferestre (split) | :ba
+Rulează comanda pe toate bufferele | :bufdo cmd
+
+## vim-ferestre
+Deschide fișier în split orizontal | :sp file
+Deschide fișier în split vertical | :vs file
+Split orizontal fereastra curentă | Ctrl-w s
+Split vertical fereastra curentă | Ctrl-w v
+Comută între ferestre | Ctrl-w w
+Închide fereastra curentă | Ctrl-w q
+Schimbă ferestrele între ele | Ctrl-w x
+Egalizează dimensiunea ferestrelor | Ctrl-w =
+Mută cursorul în fereastra din stânga | Ctrl-w h
+Mută cursorul în fereastra de jos | Ctrl-w j
+Mută cursorul în fereastra de sus | Ctrl-w k
+Mută cursorul în fereastra din dreapta | Ctrl-w l
+Mută fereastra complet la stânga | Ctrl-w H
+Mută fereastra complet jos | Ctrl-w J
+Mută fereastra complet sus | Ctrl-w K
+Mută fereastra complet la dreapta | Ctrl-w L
+Maximizează înălțimea ferestrei | Ctrl-w _
+Maximizează lățimea ferestrei | Ctrl-w <Bar>
+Închide toate ferestrele în afară de cea curentă | Ctrl-w o
+Rulează comanda pe toate ferestrele | :windo cmd
+
+## vim-fold
+Deschide/închide fold | za
+Deschide fold | zo
+Închide fold | zc
+Creează fold (cu foldmethod=manual) | zf
+Șterge fold | zd
+Deschide toate fold-urile | zR
+Închide toate fold-urile | zM
+Deschide fold-urile până se vede cursorul | zv
+
+## vim-diff
+Deschide două fișiere în diff | nvim -d file1 file2
+Mergi la începutul următoarei diferențe | ]c
+Mergi la începutul diferenței anterioare | [c
+Preia diferența din celălalt buffer (diff obtain) | do
+Trimite diferența în celălalt buffer (diff put) | dp
+Activează diff pe fereastra curentă | :diffthis
+Recalculează diferențele | :diffupdate
+Dezactivează diff | :diffoff
