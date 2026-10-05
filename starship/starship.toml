@@ -2,12 +2,12 @@
 # Schimbăm ordinea elementelor de pe ecran (Formatul liniei)
 format = """
 $character\
+$package\
 $kubernetes\
 $aws\
 $directory\
 $git_branch\
 $git_status\
-$package\
 $nodejs\
 $php\
 $line_break\
@@ -44,7 +44,7 @@ style = "bold orange"
 # 4. OPTIMIZĂRI DE DESIGN PENTRU LIMBAJE
 # =============================================================================
 [directory]
-truncation_length = 3
+truncation_length = 0
 style = "bold cyan"
 
 [git_branch]
