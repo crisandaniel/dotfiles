@@ -2,10 +2,10 @@
 # Schimbăm ordinea elementelor de pe ecran (Formatul liniei)
 format = """
 $character\
+$directory\
 $package\
 $kubernetes\
 $aws\
-$directory\
 $git_branch\
 $git_status\
 $nodejs\
@@ -45,6 +45,7 @@ style = "bold orange"
 # =============================================================================
 [directory]
 truncation_length = 0
+truncate_to_repo = false
 style = "bold cyan"
 
 [git_branch]
