@@ -3,11 +3,11 @@
 format = """
 $character\
 $directory\
+$git_branch\
+$git_status\
 $package\
 $kubernetes\
 $aws\
-$git_branch\
-$git_status\
 $nodejs\
 $php\
 $line_break\
@@ -64,4 +64,7 @@ style = "bold red"
 format = "([\\[$all_status$ahead_behind\\]]($style) )"
 
 [gcloud]
+disabled = true
+
+[package]
 disabled = true
