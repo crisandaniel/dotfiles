@@ -3,6 +3,7 @@
 format = """
 $character\
 $directory\
+$git_status\
 $git_branch\
 $git_status\
 $package\
@@ -54,12 +55,16 @@ style = "bold purple"
 
 # ADAUGAT: Indicatori vizuali moderni pentru fișiere modificate/noi și starea de push/pull
 [git_status]
-modified = "   "      # Păstrat spațiul gol definit de tine
-untracked = " "     
-staged = "   "        # Păstrat spațiul gol definit de tine
-deleted = "   "       # Păstrat spațiul gol definit de tine
-ahead = "⇡ "         
-behind = "⇣ "        
+conflicted = "="
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
 style = "bold red"     
 format = "([\\[$all_status$ahead_behind\\]]($style) )"
 
