@@ -1,3 +1,43 @@
+## eu-fisiere-ferestre
+Leader | Space
+Închide fișierul curent (buffer) | <leader>q
+Fișierul următor (tab-urile de sus) | Tab
+Fișierul anterior (tab-urile de sus) | Shift-Tab
+Focus fereastra din stânga | <leader>h
+Focus fereastra din dreapta | <leader>l
+Focus fereastra de sus | <leader>k
+Focus fereastra de jos | <leader>j
+Deschide Neo-tree la fișierul curent | <leader>n
+
+## eu-telescope
+Caută fișiere după nume | <leader>ff
+Caută text în tot proiectul (live grep) | <leader>fg
+Listă fișiere deschise (buffere) | <leader>fb
+Caută în help-ul nvim | <leader>fh
+
+## eu-terminal
+Deschide / închide terminalul de jos | Ctrl-t
+Terminal: ieși în normal mode (ca să poți derula) | Esc
+Terminal: mută focusul în fereastra stânga/jos/sus/dreapta | Ctrl-h / Ctrl-j / Ctrl-k / Ctrl-l
+
+## eu-autocomplete
+Acceptă sugestia din popup | Enter
+Sugestia următoare / anterioară | Ctrl-n / Ctrl-p sau săgeți
+Deschide manual popup-ul de sugestii | Ctrl-Space
+Închide popup-ul | Ctrl-e
+Snippet: sari la câmpul următor / anterior | Tab / Shift-Tab
+
+## eu-lsp-cod
+Mergi la definiție | gd
+Documentație pentru ce e sub cursor | K
+Redenumește în tot proiectul | <leader>rn
+Acțiuni de cod (fix rapid, import etc.) | <leader>ca
+Arată eroarea de pe linie | <leader>e
+
+## eu-ajutor
+Cheatsheet | <leader>?
+Scurtăturile active în fișierul curent (which-key) | <leader>`
+
 ## vim-global
 Deschide help pentru un cuvânt cheie | :h keyword
 Salvează fișierul ca | :saveas file

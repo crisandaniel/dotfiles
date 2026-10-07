@@ -8,7 +8,7 @@ return {
   },
   keys = {
     {
-      "<leader>?",
+      "<leader>`", -- <leader>? e rezervat pentru Cheatsheet
       function()
         require("which-key").show({ global = false })
       end,

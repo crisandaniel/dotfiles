@@ -13,7 +13,9 @@ return {
       -- Descarcă automat suportul pentru limbajele tale
       ts.install({ 
         "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", 
-        "javascript", "html", "php", "css", "scss" 
+        "javascript", "html", "php", "css", "scss",
+        "typescript", "tsx", "json", "ruby", "xml", "bash", "yaml",
+        "python", "go", "dockerfile"
       })
     end
   },

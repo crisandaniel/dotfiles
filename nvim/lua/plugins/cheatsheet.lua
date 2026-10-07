@@ -5,18 +5,15 @@ return {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons", lazy = true }, 
   },
-  cmd = "Cheatsheet",
+  cmd = { "Cheatsheet", "CheatsheetEdit" },
   keys = {
     { "<leader>?", "<cmd>Cheatsheet<cr>", desc = "Deschide Cheat Sheet" }
   },
-  -- Folosim `init` pentru a seta variabilele globale ÎNAINTE ca pluginul să pornească
-  init = function()
-    -- Aceasta este comanda magică care îi spune exact unde este fișierul tău custom
-    vim.g.cheatsheet_file = vim.fn.stdpath("config") .. "/custom_cheatsheet.txt"
-    
-    -- Activăm și cheatsheet-urile lui implicite
-    vim.g.cheatsheet_bundled_cheatsheets = 1        -- 1 înseamnă true în Vimscript
-    vim.g.cheatsheet_bundled_plugin_cheatsheets = 1 -- 1 înseamnă true în Vimscript
-  end,
+  -- Fișierul meu e citit automat: pluginul caută `cheatsheet.txt` în folderul de config (~/.config/nvim/)
+  -- Îl editez rapid cu :CheatsheetEdit (sau Ctrl-e din fereastra de cheatsheet)
+  opts = {
+    bundled_cheatsheets = true,        -- cheatsheet-urile incluse în plugin (vim, lua, regex, emoji etc.)
+    bundled_plugin_cheatsheets = true, -- cheatsheet-uri pentru pluginurile instalate (ex. telescope)
+  },
 }
 
