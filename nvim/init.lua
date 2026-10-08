@@ -10,6 +10,15 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
 
+-- Fișierele .tsv (ex. flashcards pentru Anki) au nevoie de Tab-uri reale ca separator, nu de spații
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "tsv",
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.list = true -- arată Tab-urile ca să nu le confund cu spațiile
+  end,
+})
+
 -- 3. BOOTSTRAP LAZY.NVIM (MANAGERUL DE PLUGINURI)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
