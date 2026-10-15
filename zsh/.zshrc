@@ -117,16 +117,16 @@ eval "$(pyenv init - --no-rehash zsh)"
 # 6. COMPILATOARE ȘI BIBLIOTECI DE SISTEM (OPENSSL, MYSQL, CROWDIN)
 # =============================================================================
 # OpenSSL @1.1
-export PATH=/usr/local/opt/openssl@1.1/bin:$PATH
-export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+#export PATH=/usr/local/opt/openssl@1.1/bin:$PATH
+#export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+#export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+#export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
 # MySQL @5.7
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+#export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
 # Crowdin CLI
-export PATH="/usr/local/opt/crowdin@4/bin:$PATH"
+#export PATH="/usr/local/opt/crowdin@4/bin:$PATH"
 
 # =============================================================================
 # 7. ALIAS-URI, COMPLETĂRI AUTOMATE ȘI LANSARE MOTOARE PROMPT
