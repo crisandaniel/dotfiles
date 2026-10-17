@@ -86,6 +86,7 @@ end)
 -- =============================================================================
 
 -- Deschide automat Neo-tree în stânga la pornirea Neovim și mută cursorul în cod
+--[[--
 vim.api.nvim_create_autocmd("VimEnter", {
   desc = "Deschide Neo-tree automat la pornire",
   callback = function()
@@ -93,6 +94,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.cmd("wincmd l")
   end,
 })
+--]]--
 
 -- Închide Neovim automat dacă singura fereastră rămasă pe ecran este Neo-tree
 vim.api.nvim_create_autocmd("BufEnter", {
