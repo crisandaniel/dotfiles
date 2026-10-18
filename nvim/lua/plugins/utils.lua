@@ -1,7 +1,7 @@
 return {
   {
     "Crysthamus/nvim-file-operations",
-    -- Îi spunem explicit: NU porni deloc până când Neo-tree nu este încărcat complet!
+    -- Explicitly: do NOT start until Neo-tree is fully loaded!
     dependencies = { "nvim-neo-tree/neo-tree.nvim" },
     config = function()
       require("nvim-file-operations").setup()

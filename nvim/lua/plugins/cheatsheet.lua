@@ -7,13 +7,13 @@ return {
   },
   cmd = { "Cheatsheet", "CheatsheetEdit" },
   keys = {
-    { "<leader>?", "<cmd>Cheatsheet<cr>", desc = "Deschide Cheat Sheet" }
+    { "<leader>?", "<cmd>Cheatsheet<cr>", desc = "Open cheat sheet" }
   },
-  -- Fișierul meu e citit automat: pluginul caută `cheatsheet.txt` în folderul de config (~/.config/nvim/)
-  -- Îl editez rapid cu :CheatsheetEdit (sau Ctrl-e din fereastra de cheatsheet)
+  -- My file is read automatically: the plugin looks for `cheatsheet.txt` in the config folder (~/.config/nvim/)
+  -- Quick edit with :CheatsheetEdit (or Ctrl-e from the cheat sheet window)
   opts = {
-    bundled_cheatsheets = true,        -- cheatsheet-urile incluse în plugin (vim, lua, regex, emoji etc.)
-    bundled_plugin_cheatsheets = true, -- cheatsheet-uri pentru pluginurile instalate (ex. telescope)
+    bundled_cheatsheets = true,        -- cheat sheets bundled with the plugin (vim, lua, regex, emoji etc.)
+    bundled_plugin_cheatsheets = true, -- cheat sheets for installed plugins (e.g. telescope)
   },
 }
 

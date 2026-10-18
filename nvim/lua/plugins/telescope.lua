@@ -4,13 +4,13 @@ return {
     version = '*',
     dependencies = { 
       'nvim-lua/plenary.nvim',
-      -- Mutăm extensia nativă ca dependență directă aici:
+      -- Native extension declared as a direct dependency here:
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
     },
     config = function()
       local builtin = require('telescope.builtin')
 
-      -- Încarcă extensia FZF în interiorul lui Telescope după pornire
+      -- Load the FZF extension into Telescope after startup
       pcall(require('telescope').load_extension, 'fzf')
   
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })

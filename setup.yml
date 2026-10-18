@@ -1,5 +1,5 @@
 ---
-- name: Configurare automata macOS (Neovim Local, iTerm2, Zsh + Starship)
+- name: Automated macOS setup (local Neovim, iTerm2, Zsh + Starship)
   hosts: localhost
   connection: local
   gather_facts: false
@@ -8,38 +8,38 @@
     home_dir: "{{ lookup('env', 'HOME') }}"
 
   tasks:
-    # 0. MECANISM DE SIGURANȚĂ: Verifică dacă scriptul rulează în iTerm2 și îl închide instantaneu
-    - name: Verifica daca scriptul este rulat din iTerm
+    # 0. SAFETY CHECK: detect if the script runs inside iTerm2 and close it right away
+    - name: Check whether the script is run from iTerm
       ansible.builtin.set_fact:
         is_iterm: "{{ lookup('env', 'TERM_PROGRAM') == 'iTerm.app' }}"
 
-    - name: Oprește scriptul și închide iTerm2 dacă este deschis
+    - name: Stop the script and close iTerm2 if it is open
       block:
-        - name: Inchide fortat iTerm2 prin semnal de sistem (Previne suprascrierea setarilor)
+        - name: Force-quit iTerm2 via system signal (prevents overwriting its settings)
           ansible.builtin.shell: killall -9 iTerm2
           failed_when: false
           changed_when: true
 
-        - name: Blochează execuția și cere utilizatorului să ruleze din Terminal.app
+        - name: Abort and ask the user to run it from Terminal.app
           ansible.builtin.fail:
-            msg: "EROARE: Scriptul a detectat rularea din iTerm2 și a oprit aplicația. Te rugăm să deschizi aplicația nativă 'Terminal.app' de pe Mac și să rerulezi comanda: ansible-playbook setup.yml"
+            msg: "ERROR: The script detected it was run from iTerm2 and closed the app. Please open the native macOS 'Terminal.app' and run the command again: ansible-playbook setup.yml"
       when: is_iterm
 
-    # 1. Ne asiguram ca managerul de pachete Homebrew este instalat
-    - name: Verifica sau instaleaza Homebrew
+    # 1. Make sure the Homebrew package manager is installed
+    - name: Check or install Homebrew
       ansible.builtin.shell: |
         if ! command -v brew &> /dev/null; then
-          /bin/bash -c "$(curl -fsSL https://githubusercontent.com)"
+          NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
       register: brew_check
       changed_when: false
 
-    # 2. Instalam aplicatiile necesare din Homebrew
-    - name: Instaleaza utilitarele CLI prin Homebrew
+    # 2. Install the required apps from Homebrew
+    - name: Install CLI tools via Homebrew
       community.general.homebrew:
         name: "{{ item }}"
         state: present
-        update_homebrew: false  # <-- Previne scanarea lentă a întregului catalog la fiecare pas
+        update_homebrew: false  # <-- Avoids slowly re-scanning the whole catalog at every step
         path: /opt/homebrew/bin
       loop:
         - starship
@@ -53,30 +53,30 @@
         - rbenv
         - pyenv
         - kubernetes-cli
-        - zsh-syntax-highlighting     
-      throttle: 1   
+        - zsh-syntax-highlighting
+      throttle: 1
 
-    - name: Instaleaza iTerm2 prin Homebrew (GUI/Cask)
+    - name: Install iTerm2 via Homebrew (GUI/Cask)
       community.general.homebrew_cask:
         name: iterm2
         state: present
         path: /opt/homebrew/bin
         accept_external_apps: true
-        install_options: 
-          - "--force"                  # <-- Forțează suprascrierea în caz că există deja o versiune manuală
+        install_options:
+          - "--force"                  # <-- Forces overwrite in case a manually installed version exists
       ignore_errors: true
-          
-    - name: Instaleaza JetBrains Mono Nerd Font prin Homebrew (Cask)
+
+    - name: Install JetBrains Mono Nerd Font via Homebrew (Cask)
       community.general.homebrew_cask:
         name: font-jetbrains-mono-nerd-font
         state: present
-        path: /opt/homebrew/bin        # <-- Forțează calea nativă de M4 Pro
+        path: /opt/homebrew/bin        # <-- Forces the native Apple Silicon (M4 Pro) path
         accept_external_apps: true
-        install_options: 
-          - "--force"                  # <-- Forțează suprascrierea dacă fișierele TTF există deja
+        install_options:
+          - "--force"                  # <-- Forces overwrite if the TTF files already exist
 
-    # 3. Pregatim folderele de sistem necesare
-    - name: Asigura existenta directoarelor de configurare (~/.config, ~/apps, ~/.local/bin)
+    # 3. Prepare the required folders
+    - name: Ensure config directories exist (~/.config, ~/apps, ~/.local/bin)
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
@@ -86,99 +86,105 @@
         - "{{ home_dir }}/apps"
         - "{{ home_dir }}/.local/bin"
 
-    # 4. DEZARHIVARE NEOVIM DIN PACHETUL LOCAL
-    - name: Dezarhiveaza pachetul local Neovim ARM64 in ~/apps
+    # 4. UNPACK NEOVIM FROM THE LOCAL ARCHIVE
+    - name: Unpack the local Neovim ARM64 archive into ~/apps
       ansible.builtin.shell: |
         tar -xzf "{{ playbook_dir }}/nvim-macos-arm64.tar.gz" -C "{{ home_dir }}/apps"
       args:
         creates: "{{ home_dir }}/apps/nvim-macos-arm64"
 
-    # 5. Cream symlink-ul pentru comanda nvim in PATH (cu Backup integrat)
-    - name: Face backup la binarul nvim existent daca nu e deja symlink
+    # 5. Create the symlink for the nvim command in PATH (with built-in backup)
+    - name: Back up the existing nvim binary if it is not already a symlink
       ansible.builtin.shell: |
         if [ -e "{{ home_dir }}/.local/bin/nvim" ] && [ ! -L "{{ home_dir }}/.local/bin/nvim" ]; then
           mv "{{ home_dir }}/.local/bin/nvim" "{{ home_dir }}/.local/bin/nvim.backup"
         fi
       failed_when: false
 
-    - name: Creeaza legatura binara pentru comanda nvim
+    - name: Link the nvim binary
       ansible.builtin.file:
         src: "{{ home_dir }}/apps/nvim-macos-arm64/bin/nvim"
         dest: "{{ home_dir }}/.local/bin/nvim"
         state: link
         force: true
 
-    # 6. Link-ul pentru folderul complet de configurare Neovim (cu Backup integrat)
-    - name: Face backup la folderul nvim existent din .config
+    # 6. Link the whole Neovim config folder (with built-in backup)
+    - name: Back up the existing nvim folder in .config
       ansible.builtin.shell: |
         if [ -e "{{ home_dir }}/.config/nvim" ] && [ ! -L "{{ home_dir }}/.config/nvim" ]; then
           mv "{{ home_dir }}/.config/nvim" "{{ home_dir }}/.config/nvim.backup"
         fi
       failed_when: false
 
-    - name: Aplica configurarea pentru Neovim
+    - name: Apply the Neovim config
       ansible.builtin.file:
         src: "{{ playbook_dir }}/nvim"
         dest: "{{ home_dir }}/.config/nvim"
         state: link
         force: true
-    
-    # 7. Link-ul pentru configurarea Starship (cu Backup integrat)
-    - name: Face backup la fisierul starship.toml existent
+
+    # 7. Link the Starship config (with built-in backup)
+    - name: Back up the existing starship.toml
       ansible.builtin.shell: |
         if [ -e "{{ home_dir }}/.config/starship.toml" ] && [ ! -L "{{ home_dir }}/.config/starship.toml" ]; then
           mv "{{ home_dir }}/.config/starship.toml" "{{ home_dir }}/.config/starship.toml.backup"
         fi
       failed_when: false
 
-    - name: Aplica configurarea pentru Starship
+    - name: Apply the Starship config
       ansible.builtin.file:
         src: "{{ playbook_dir }}/starship/starship.toml"
         dest: "{{ home_dir }}/.config/starship.toml"
         state: link
         force: true
-    
-    # 7b. INSTALARE AUTOMATĂ OH MY ZSH (Forțată dacă există deja .zshrc)
-    - name: Verifica sau instaleaza Oh My Zsh
+    - name: Apply the minimal Starship config
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/starship/starship-minimal.toml"
+        dest: "{{ home_dir }}/.config/starship-minimal.toml"
+        state: link
+        force: true
+
+    # 7b. AUTOMATIC OH MY ZSH INSTALL (forced even if a .zshrc already exists)
+    - name: Check or install Oh My Zsh
       ansible.builtin.shell: |
         if [ ! -d "{{ home_dir }}/.oh-my-zsh" ]; then
-          sh -c "$(curl -fsSL https://githubusercontent.com)" "" --unattended --keep-zshrc
+          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
         fi
       register: omz_install
       changed_when: "'Installing Oh My Zsh' in omz_install.stdout"
 
-    - name: Descarca plugin-ul zsh-vi-mode pentru Oh My Zsh
+    - name: Download the zsh-vi-mode plugin for Oh My Zsh
       ansible.builtin.shell: |
         if [ ! -d "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode" ]; then
-          git clone --depth=1 https://github.com "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
+          git clone --depth=1 https://github.com/jeffreytse/zsh-vi-mode "{{ home_dir }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
         fi
       register: zvm_clone
       changed_when: "zvm_clone.stdout is search('Cloning into')"
 
-    # 8. Link-ul pentru .zshrc in folderul Home cu numele corect (cu Backup integrat)
-    - name: Face backup la fisierul .zshrc existent
+    # 8. Link .zshrc into the home folder with the right name (with built-in backup)
+    - name: Back up the existing .zshrc
       ansible.builtin.shell: |
         if [ -e "{{ home_dir }}/.zshrc" ] && [ ! -L "{{ home_dir }}/.zshrc" ]; then
           mv "{{ home_dir }}/.zshrc" "{{ home_dir }}/.zshrc.backup"
         fi
       failed_when: false
 
-    - name: Aplica configurarea pentru Zsh (.zshrc)
+    - name: Apply the Zsh config (.zshrc)
       ansible.builtin.file:
         src: "{{ playbook_dir }}/zsh/.zshrc"
         dest: "{{ home_dir }}/.zshrc"
         state: link
         force: true
 
-    # 9. REPARAT: Configurare nativă și precisă a preferințelor macOS pentru profilul iTerm2
-    - name: Injecteaza configurarea JetBrainsMono Nerd Font in plista iTerm2
+    # 9. FIXED: native, precise setup of the macOS preferences for the iTerm2 profile
+    - name: Inject the JetBrainsMono Nerd Font setting into the iTerm2 plist
       ansible.builtin.shell: |
         python3 -c "
         import plistlib
         import os
 
         plist_path = os.path.expanduser('~/Library/Preferences/com.googlecode.iterm2.plist')
-        
+
         if os.path.exists(plist_path):
             with open(plist_path, 'rb') as f:
                 try:
@@ -188,7 +194,7 @@
         else:
             data = {}
 
-        # Profilele sunt salvate in cheia 'New Bookmarks'
+        # Profiles are stored under the 'New Bookmarks' key
         profiles = data.get('New Bookmarks', [])
         if not profiles:
             profiles = [{'Name': 'Default'}]

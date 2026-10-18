@@ -1,5 +1,5 @@
 
-# Schimbăm ordinea elementelor de pe ecran (Formatul liniei)
+# Order of the elements on screen (prompt line format)
 format = """
 $character\
 $directory\
@@ -15,18 +15,18 @@ $line_break\
 $character"""
 
 # =============================================================================
-# 1. CONFIGURARE MOTOR VIM (zsh-vi-mode integration)
+# 1. VIM MODE INDICATOR (zsh-vi-mode integration)
 # =============================================================================
 [character]
 success_symbol = "[🅨 ](bold green) ❯"
 error_symbol = "[🅨 ](bold green) ❯"
-# Trucul critic: Când apeși ESC, simbolul de la început își schimbă culoarea și textul!
+# Key trick: when you press ESC, the leading symbol changes its color and letter
 vimcmd_symbol = "[🅝 ](bold yellow) ❯"
 vimcmd_visual_symbol = "[🅥 ](bold cyan) ❯"
 vimcmd_replace_symbol = "[🅡 ](bold red) ❯"
 
 # =============================================================================
-# 2. CONFIGURARE KUBERNETES CONTEXT
+# 2. KUBERNETES CONTEXT
 # =============================================================================
 [kubernetes]
 disabled = false
@@ -34,7 +34,7 @@ format = 'via [⎈ $context]($style) '
 style = "bold blue"
 
 # =============================================================================
-# 3. CONFIGURARE AWS PROFILE
+# 3. AWS PROFILE
 # =============================================================================
 [aws]
 disabled = false
@@ -42,7 +42,7 @@ format = 'on [☁️ $profile]($style) '
 style = "bold orange"
 
 # =============================================================================
-# 4. OPTIMIZĂRI DE DESIGN PENTRU LIMBAJE
+# 4. DIRECTORY, GIT AND LANGUAGE STYLING
 # =============================================================================
 [directory]
 truncation_length = 0
@@ -53,7 +53,7 @@ style = "bold cyan"
 symbol = " "
 style = "bold purple"
 
-# ADAUGAT: Indicatori vizuali moderni pentru fișiere modificate/noi și starea de push/pull
+# Visual indicators for modified/new files and push/pull state
 [git_status]
 conflicted = "="
 ahead = "⇡"

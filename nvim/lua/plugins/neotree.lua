@@ -2,7 +2,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
-    -- Forțăm încărcarea prealabilă a acestor 3 librării esențiale:
+    -- Force these 3 required libraries to load first:
     dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
@@ -12,10 +12,10 @@ return {
       require("neo-tree").setup({
         filesystem = {
           filtered_items = {
-            visible = true,           -- !!! Această linie face ca fișierele ascunse să fie vizibile implicit !!!
-            show_hidden_count = true, -- Îți arată câte fișiere ascunse sunt în foldere
-            hide_dotfiles = false,    -- Nu mai ascunde fișierele care încep cu punct (.)
-            hide_gitignored = false,  -- Opțional: Arată și fișierele din .gitignore (ex: node_modules)
+            visible = true,           -- !!! This line makes hidden files visible by default !!!
+            show_hidden_count = true, -- Show how many hidden files each folder has
+            hide_dotfiles = false,    -- Don't hide files starting with a dot (.)
+            hide_gitignored = false,  -- Optional: also show files from .gitignore (e.g. node_modules)
           },
         },
       })

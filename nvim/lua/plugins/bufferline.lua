@@ -2,14 +2,14 @@ return {
   {
     'akinsho/bufferline.nvim',
     version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons', -- adaugă iconițe frumoase pentru fișiere
+    dependencies = 'nvim-tree/nvim-web-devicons', -- adds file type icons
     config = function()
       require("bufferline").setup({
         options = {
-          mode = "buffers", -- arată fișierele deschise
-          separator_style = "slant", -- oferă un aspect modern, înclinat (opțional: "thin", "thick")
+          mode = "buffers", -- show open files
+          separator_style = "slant", -- modern slanted look (alternatives: "thin", "thick")
           always_show_bufferline = true,
-          -- Trucul critic: împinge tab-urile la dreapta ca să lase loc liber deasupra Neo-tree
+          -- Key trick: push the tabs to the right to leave room above Neo-tree
           offsets = {
             {
               filetype = "neo-tree",

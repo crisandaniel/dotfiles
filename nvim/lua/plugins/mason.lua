@@ -1,6 +1,6 @@
 
 return {
-  -- Managerul de unelte externe (aici îl setăm să instaleze 'ripgrep' pentru căutări ultra-rapide în Telescope)
+  -- External tools manager (language servers, linters, formatters)
   { 
     'williamboman/mason.nvim', 
     config = function()

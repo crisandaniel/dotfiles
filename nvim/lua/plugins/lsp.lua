@@ -1,21 +1,23 @@
 return {
+  -- DISABLED: autocomplete (blink.cmp) and LSP. To re-enable, delete the "--[[" and "--]]" lines.
+  --[[
   -- =============================================================================
-  -- AUTOCOMPLETE: popup cu sugestii în timp ce scrii (LSP + cuvinte din fișier + căi + snippet-uri)
+  -- AUTOCOMPLETE: suggestions popup while typing (LSP + words in file + paths + snippets)
   -- =============================================================================
   {
     "saghen/blink.cmp",
-    version = "1.*", -- versiune stabilă, vine cu binarul fuzzy precompilat
-    dependencies = { "rafamadriz/friendly-snippets" }, -- snippet-uri gata făcute pentru zeci de limbaje
+    version = "1.*", -- stable release, ships the prebuilt fuzzy matcher binary
+    dependencies = { "rafamadriz/friendly-snippets" }, -- ready-made snippets for dozens of languages
     event = { "InsertEnter", "CmdlineEnter" },
     opts = {
-      -- Enter acceptă, Ctrl+n/p sau săgețile navighează, Tab/Shift+Tab sar între câmpurile snippet-ului
-      -- Ctrl+Space deschide manual popup-ul / documentația, Ctrl+e îl închide
+      -- Enter accepts, Ctrl+n/p or arrows navigate, Tab/Shift+Tab jump between snippet fields
+      -- Ctrl+Space opens the popup / docs manually, Ctrl+e closes it
       keymap = { preset = "enter" },
       completion = {
-        documentation = { auto_show = true, auto_show_delay_ms = 300 }, -- documentația apare lângă sugestie
-        ghost_text = { enabled = true }, -- arată sugestia curentă estompat, direct în text
+        documentation = { auto_show = true, auto_show_delay_ms = 300 }, -- docs appear next to the suggestion
+        ghost_text = { enabled = true }, -- show the current suggestion dimmed, inline
       },
-      signature = { enabled = true }, -- arată parametrii funcției în timp ce îi scrii
+      signature = { enabled = true }, -- show function parameters while typing them
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
       },
@@ -23,22 +25,22 @@ return {
   },
 
   -- =============================================================================
-  -- LSP: language servere instalate automat prin Mason și pornite nativ (vim.lsp.enable)
+  -- LSP: language servers installed automatically via Mason and started natively (vim.lsp.enable)
   -- =============================================================================
   {
     "mason-org/mason-lspconfig.nvim",
     dependencies = {
       "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig", -- configurațiile implicite pentru fiecare server
+      "neovim/nvim-lspconfig", -- default configs for each server
       "saghen/blink.cmp",
     },
     config = function()
-      -- Spune tuturor serverelor ce poate face autocomplete-ul (snippet-uri, documentație etc.)
+      -- Tell all servers what the completion engine supports (snippets, docs etc.)
       vim.lsp.config("*", {
         capabilities = require("blink.cmp").get_lsp_capabilities(),
       })
 
-      -- Lua: recunoaște variabila globală `vim` când editezi configul nvim
+      -- Lua: recognize the global `vim` when editing the nvim config
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
@@ -49,15 +51,15 @@ return {
       })
 
       require("mason-lspconfig").setup({
-        -- Se instalează automat la prima pornire. Orice server instalat ulterior cu :Mason pornește singur.
-        -- Ruby (ruby_lsp) NU e aici: cere Ruby 3+. După ce ai Ruby 3: :MasonInstall ruby-lsp
+        -- Installed automatically on first start. Any server installed later with :Mason starts on its own.
+        -- Ruby (ruby_lsp) is NOT here: it needs Ruby 3+. Once you have Ruby 3: :MasonInstall ruby-lsp
         ensure_installed = {
           -- Web / React / Next.js
           "ts_ls", -- JavaScript, TypeScript, JSX, TSX
           "eslint",
           "html",
           "cssls", -- CSS, SCSS, Less
-          "tailwindcss", -- pornește doar în proiecte cu Tailwind
+          "tailwindcss", -- only starts in Tailwind projects
           "emmet_language_server", -- div.clasa>ul>li*3 + Enter
           "jsonls",
           -- Backend
@@ -76,27 +78,28 @@ return {
         automatic_enable = true,
       })
 
-      -- Arată erorile direct pe linie (în 0.11+ sunt ascunse implicit)
+      -- Show errors inline (hidden by default in 0.11+)
       vim.diagnostic.config({
         virtual_text = true,
         severity_sort = true,
         float = { border = "rounded" },
       })
 
-      -- Scurtături active doar în fișierele unde rulează un LSP
+      -- Shortcuts active only in files with a running LSP
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(ev)
           local map = function(keys, fn, desc)
             vim.keymap.set("n", keys, fn, { buffer = ev.buf, desc = desc })
           end
-          map("gd", vim.lsp.buf.definition, "LSP: Mergi la definiție")
-          -- Implicit în nvim 0.12: grr = unde e folosit, gri = implementare, [d / ]d = eroarea anterioară/următoare
-          map("K", vim.lsp.buf.hover, "LSP: Documentație")
-          map("<leader>rn", vim.lsp.buf.rename, "LSP: Redenumește")
-          map("<leader>ca", vim.lsp.buf.code_action, "LSP: Acțiuni de cod")
-          map("<leader>e", vim.diagnostic.open_float, "LSP: Arată eroarea")
+          map("gd", vim.lsp.buf.definition, "LSP: Go to definition")
+          -- Built into nvim 0.12: grr = references, gri = implementation, [d / ]d = previous/next diagnostic
+          map("K", vim.lsp.buf.hover, "LSP: Documentation")
+          map("<leader>rn", vim.lsp.buf.rename, "LSP: Rename")
+          map("<leader>ca", vim.lsp.buf.code_action, "LSP: Code actions")
+          map("<leader>e", vim.diagnostic.open_float, "LSP: Show diagnostic")
         end,
       })
     end,
   },
+  --]]
 }

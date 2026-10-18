@@ -1,40 +1,45 @@
 # =============================================================================
-# 1. VARIABILE DE MEDIU ȘI CĂI GLOBALE (PATH)
+# 1. ENVIRONMENT VARIABLES AND GLOBAL PATHS (PATH)
 # =============================================================================
-# Setare căi de bază
+# Base paths
 export ZSH="$HOME/.oh-my-zsh"
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/opt/homebrew/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
-# Încarcă Homebrew nativ (Apple Silicon) o singură dată pe sesiune
+# Load native Homebrew (Apple Silicon) once per session
 if [[ -z "$HOMEBREW_PREFIX" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Încarcă mediul personal
+# Default editor for programs that open one (git commit, crontab -e, kubectl edit, zsh-vi-mode `vv`).
+# The `vim=nvim` alias does not apply to them, they run whatever $EDITOR / $VISUAL names.
+export EDITOR=nvim
+export VISUAL=nvim
+
+# Load personal environment (secrets)
 source ~/.zsh_env
 
-# Fix pentru pluginul zsh-vi-mode (Oprește eroarea "widgets can only be called when ZLE is active")
+# Fix for the zsh-vi-mode plugin (stops the "widgets can only be called when ZLE is active" error)
 export ZVM_INIT_MODE=sourcing
 
 
 # =============================================================================
-# 2. CONFIGURARE OH MY ZSH
+# 2. OH MY ZSH
 # =============================================================================
 
-# COMENTAT PENTRU OPTIMIZARE: Dezactivăm Agnoster deoarece Starship controlează acum promptul
+# DISABLED: Agnoster theme is off because Starship now draws the prompt
 # ZSH_THEME="agnoster"
 
-# Plugin-uri active (zsh-vi-mode trebuie să fie încărcat prin OMZ)
+# Active plugins (zsh-vi-mode must be loaded through OMZ)
 plugins=(git npm nvm bundler dotenv rake rbenv ruby zsh-vi-mode)
 
-# Lansare Oh My Zsh
+# Start Oh My Zsh
 source $ZSH/oh-my-zsh.sh
 
 # =============================================================================
-# 3. PERSONALIZARE PROMPT & INTEGRARE KUBERNETES + VI MODE (COMENTATĂ / INACTIVĂ)
+# 3. CUSTOM PROMPT WITH KUBERNETES + VI MODE (COMMENTED OUT / INACTIVE)
 # =============================================================================
-# COMENTAT: Toată această secțiune a fost dezactivată curat pentru că Starship 
-# preia contextul din fișierul starship.toml.
+# DISABLED: this whole section is turned off because Starship
+# takes this context from starship.toml.
 #
 # prompt_zvm_status() {
 #   case $ZVM_MODE in
@@ -72,9 +77,9 @@ source $ZSH/oh-my-zsh.sh
 # }
 
 # =============================================================================
-# 4. FUNCȚII CUSTOM ȘI AUTOMATIZĂRI (SSH, GPG)
+# 4. CUSTOM FUNCTIONS AND AUTOMATION (SSH, GPG)
 # =============================================================================
-# Manager Agent SSH și GPG
+# SSH and GPG agent manager
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
     SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -82,7 +87,7 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
 fi
 gpgconf --launch gpg-agent
 
-# Wrapper SSH inteligent pentru iTerm2 și profile vizuale
+# SSH wrapper: switches the iTerm2 profile and shows a banner while connected
 ssh() {
   local host="${@[-1]}"
   print -u2 -P "%K{red}%F{white}%B  🔒 SSH → $host  %b%f%k"
@@ -98,23 +103,17 @@ ssh() {
 }
 
 # =============================================================================
-# 5. CONFIGURĂRI LIMBAJE DE PROGRAMARE & MEDII (NVM, RBENV, PYENV)
+# 5. LANGUAGE VERSION MANAGERS (NVM, RBENV, PYENV)
 # =============================================================================
-# Node Version Manager (NVM)
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# NVM and RBENV are loaded by the Oh My Zsh `nvm` and `rbenv` plugins (see plugins=(...))
 
-# Ruby Version Manager (RBENV)
-eval "$(rbenv init - --no-rehash zsh)"
-
-# Python Version Manager (PYENV) - adăugat no-rehash pentru optimizare de viteză
+# Python Version Manager (PYENV) - --no-rehash for faster startup
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - --no-rehash zsh)"
 
 # =============================================================================
-# 6. COMPILATOARE ȘI BIBLIOTECI DE SISTEM (OPENSSL, MYSQL, CROWDIN)
+# 6. COMPILERS AND SYSTEM LIBRARIES (OPENSSL, MYSQL, CROWDIN) - old Intel Homebrew paths, disabled
 # =============================================================================
 # OpenSSL @1.1
 #export PATH=/usr/local/opt/openssl@1.1/bin:$PATH
@@ -129,39 +128,42 @@ eval "$(pyenv init - --no-rehash zsh)"
 #export PATH="/usr/local/opt/crowdin@4/bin:$PATH"
 
 # =============================================================================
-# 7. ALIAS-URI, COMPLETĂRI AUTOMATE ȘI LANSARE MOTOARE PROMPT
+# 7. ALIASES, COMPLETIONS AND PROMPT ENGINE
 # =============================================================================
-# Configurare Kubernetes CLI (Kubectl)
+# Kubernetes CLI (kubectl)
 source <(kubectl completion zsh)
 alias k=kubectl
 complete -o default -F _kubectl k
 
-# Alias-uri globale Neovim
+# Neovim aliases
 alias vim=nvim
 alias vi=nvim
 
-# Evidențiere sintaxă în consolă (Zsh Syntax Highlighting)
+# Command line syntax highlighting (zsh-syntax-highlighting)
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# LANSARE STARSHIP (Trebuie rulat la final pentru a asigura randarea optimă)
+# START STARSHIP (must run last so the prompt renders correctly)
 eval "$(starship init zsh)"
 
 # =============================================================================
-# 8. HOOK-URI ȘI CONFIGURĂRI PENTRU ZSH-VI-MODE + STARSHIP INTEGRATION
+# 8. HOOKS FOR ZSH-VI-MODE + STARSHIP INTEGRATION
 # =============================================================================
-# COMENTAT: Vechile reguli pentru RPS1 au fost oprite curat
-# function zvm_after_select_vi_mode() {
-#   RPS1="$(zvm_custom_status)"
-#   zle .reset-prompt
-# }
-# function zvm_after_init() {
-#   RPS1="$(zvm_custom_status)"
-#   zle .reset-prompt
-# }
 
-# NOIle HOOK-URI: Sincronizează nativ stările Vim direct în promptul din Starship
+function toggle_prompt() {
+  if [[ -z "$STARSHIP_CONFIG" ]]; then
+    export STARSHIP_CONFIG=$HOME/.config/starship-minimal.toml
+  else 
+    unset STARSHIP_CONFIG
+  fi
+  zle reset-prompt
+}
+zle -N toggle_prompt
+bindkey -M viins '^o' toggle_prompt 
+bindkey -M vicmd '^o' toggle_prompt 
+
+# zsh-vi-mode hooks: keep the Vim mode shown in the Starship prompt in sync
 function zvm_after_select_vi_mode() {
-  # Trimite notificare către Starship să schimbe litera 🅨 în 🅝 instantaneu
+  # Redraw the prompt so Starship switches 🅨 to 🅝 immediately
   zle reset-prompt
 }
 

@@ -10,7 +10,7 @@ return {
         highlight = { enable = true },
         indent = { enable = true },
       })
-      -- Descarcă automat suportul pentru limbajele tale
+      -- Automatically download parsers for these languages
       ts.install({ 
         "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", 
         "javascript", "html", "php", "css", "scss",

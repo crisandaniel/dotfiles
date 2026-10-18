@@ -8,7 +8,7 @@ return {
   },
   keys = {
     {
-      "<leader>`", -- <leader>? e rezervat pentru Cheatsheet
+      "<leader>`", -- <leader>? is reserved for the cheat sheet
       function()
         require("which-key").show({ global = false })
       end,

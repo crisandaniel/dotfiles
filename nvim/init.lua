@@ -1,7 +1,7 @@
--- 1. OPREȘTE MOTORUL NATIV DE TREESITTER PE FIȘIERELE LUA PENTRU A PREVENI EROAREA
+-- 1. DISABLE THE NATIVE TREESITTER ENGINE ON LUA FILES TO PREVENT THE ERROR
 -- vim.treesitter.start = function() return false end
 
--- 2. SETĂRI GLOBALE DE EDITARE
+-- 2. GLOBAL EDITING SETTINGS
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -10,16 +10,16 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
 
--- Fișierele .tsv (ex. flashcards pentru Anki) au nevoie de Tab-uri reale ca separator, nu de spații
+-- .tsv files (e.g. Anki flashcards) need real Tabs as separators, not spaces
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "tsv",
   callback = function()
     vim.opt_local.expandtab = false
-    vim.opt_local.list = true -- arată Tab-urile ca să nu le confund cu spațiile
+    vim.opt_local.list = true -- show Tabs so I don't confuse them with spaces
   end,
 })
 
--- 3. BOOTSTRAP LAZY.NVIM (MANAGERUL DE PLUGINURI)
+-- 3. BOOTSTRAP LAZY.NVIM (PLUGIN MANAGER)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -36,11 +36,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- 4. CONFIGURARE TASTĂ LEADER (Trebuie pusă înainte de a încărca setup-ul Lazy)
+-- 4. LEADER KEY (must be set before loading Lazy)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- 5. ÎNCĂRCAREA AUTOMATĂ A PLUGINURILOR DIN FOLDERUL LUA/PLUGINS/
+-- 5. AUTO-LOAD ALL PLUGINS FROM THE LUA/PLUGINS/ FOLDER
 require("lazy").setup({
   spec = {
     { import = "plugins" }, 
@@ -49,28 +49,26 @@ require("lazy").setup({
 })
 
 -- =============================================================================
--- SCURTĂTURI DE TASTATURĂ GLOBALE (MAPPING-URI)
+-- GLOBAL KEYBOARD SHORTCUTS (MAPPINGS)
 -- =============================================================================
 
--- Închide tab-ul/buffer-ul curent cu Space + q (fără să închizi Neovim)
-vim.keymap.set("n", "<leader>q", ":bdelete<CR>", { silent = true, desc = "Închide fișierul curent" })
+-- Close the current tab/buffer with Space + q (without quitting Neovim)
+vim.keymap.set("n", "<leader>q", ":bdelete<CR>", { silent = true, desc = "Close current file" })
 
--- Scurtături de navigare rapidă între ferestre/splits (Stânga / Dreapta)
-vim.keymap.set("n", "<leader>h", "<C-w>h", { desc = "Focus fereastră stânga" })
-vim.keymap.set("n", "<leader>l", "<C-w>l", { desc = "Focus fereastră dreapta" })
+-- DISABLED: window navigation with Ctrl + h/j/k/l. Using the default Ctrl-w h/j/k/l (from normal mode)
+-- vim.keymap.set({ "n", "t" }, "<C-h>", "<Cmd>wincmd h<CR>", { desc = "Focus left window" })
+-- vim.keymap.set({ "n", "t" }, "<C-j>", "<Cmd>wincmd j<CR>", { desc = "Focus window below" })
+-- vim.keymap.set({ "n", "t" }, "<C-k>", "<Cmd>wincmd k<CR>", { desc = "Focus window above" })
+-- vim.keymap.set({ "n", "t" }, "<C-l>", "<Cmd>wincmd l<CR>", { desc = "Focus right window" })
 
--- Navigare rapidă între tab-uri de sus (Bufferline) folosind tastele Tab și Shift+Tab
-vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { silent = true, desc = "Următorul fișier" })
-vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { silent = true, desc = "Fișierul anterior" })
+-- DISABLED: navigation between the tabs at the top. Using the default ]b / [b (next / previous buffer)
+-- vim.keymap.set("n", "<leader><Tab>", ":BufferLineCycleNext<CR>", { silent = true, desc = "Next file" })
+-- vim.keymap.set("n", "<leader><S-Tab>", ":BufferLineCyclePrev<CR>", { silent = true, desc = "Previous file" })
 
--- Navigare intre ferestre sus-jos
-vim.keymap.set("n", "<leader>k", "<C-w>k<C-w>l", { desc = "Focus fereastră sus" })
-vim.keymap.set("n", "<leader>j", "<C-w>j", { desc = "Focus fereastră jos" })
+-- Toggle the Neo-tree explorer with Space + n (opens on the left, revealing the current file)
+vim.keymap.set('n', '<leader>n', ':Neotree filesystem toggle reveal left<CR>', { silent = true, desc = 'Toggle Neo-tree on the left' })
 
--- Deschide exploratorul Neo-tree manual cu Space + n
-vim.keymap.set('n', '<leader>n', ':Neotree filesystem reveal left<CR>', { desc = 'Deschide Neo-tree în stânga' })
-
--- Deschide terminal
+-- Open terminal
 --[[--
 vim.keymap.set('n', '<leader>t', function()
   vim.cmd.vnew()
@@ -82,13 +80,13 @@ end)
 
 
 -- =============================================================================
--- AUTOMATIZĂRI GLOBALE (AUTO-COMMANDS)
+-- GLOBAL AUTOMATION (AUTO-COMMANDS)
 -- =============================================================================
 
--- Deschide automat Neo-tree în stânga la pornirea Neovim și mută cursorul în cod
+-- Open Neo-tree on the left when Neovim starts and move the cursor to the code
 --[[--
 vim.api.nvim_create_autocmd("VimEnter", {
-  desc = "Deschide Neo-tree automat la pornire",
+  desc = "Open Neo-tree on startup",
   callback = function()
     vim.cmd("Neotree show")
     vim.cmd("wincmd l")
@@ -96,9 +94,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 --]]--
 
--- Închide Neovim automat dacă singura fereastră rămasă pe ecran este Neo-tree
+-- Quit Neovim automatically if Neo-tree is the only window left
 vim.api.nvim_create_autocmd("BufEnter", {
-  desc = "Închide editorul dacă a rămas doar Neo-tree",
+  desc = "Quit if only Neo-tree is left",
   nested = true,
   callback = function()
     if #vim.api.nvim_list_wins() == 1 then
