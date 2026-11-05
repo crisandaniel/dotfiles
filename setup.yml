@@ -54,6 +54,7 @@
         - pyenv
         - kubernetes-cli
         - zsh-syntax-highlighting
+        - tmux
       throttle: 1
 
     - name: Install iTerm2 via Homebrew (GUI/Cask)
@@ -173,6 +174,30 @@
       ansible.builtin.file:
         src: "{{ playbook_dir }}/zsh/.zshrc"
         dest: "{{ home_dir }}/.zshrc"
+        state: link
+        force: true
+
+    # 8b. Tmux: TPM (plugin manager) + .tmux.conf link (with built-in backup)
+    - name: Clone the tmux plugin manager (TPM) into ~/.tmux/plugins/tpm
+      ansible.builtin.git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: "{{ home_dir }}/.tmux/plugins/tpm"
+        depth: 1
+        update: false                  # <-- Clone only once; TPM updates itself with prefix + U
+
+    - name: Back up the existing .tmux.conf
+      ansible.builtin.shell: |
+        if [ -e "{{ home_dir }}/.tmux.conf" ] && [ ! -L "{{ home_dir }}/.tmux.conf" ]; then
+          mv "{{ home_dir }}/.tmux.conf" "{{ home_dir }}/.tmux.conf.backup"
+          echo "backed-up"
+        fi
+      register: tmux_conf_backup
+      changed_when: "'backed-up' in tmux_conf_backup.stdout"
+
+    - name: Apply the tmux config (.tmux.conf)
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/tmux/tmux.conf"
+        dest: "{{ home_dir }}/.tmux.conf"
         state: link
         force: true
 
