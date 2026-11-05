@@ -58,7 +58,7 @@ style = "bold cyan"
 [custom.gh_user]
 command = "awk '/user:/ {print $2}' ~/.config/gh/hosts.yml"
 when = "test -f ~/.config/gh/hosts.yml"
-format = "via [🐙 $output](bold purple) "
+format = "via [☠️  $output](bold purple) "
 
 [git_branch]
 symbol = " "
