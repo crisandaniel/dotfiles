@@ -9,6 +9,10 @@ vim.opt.shiftwidth = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99
+
 
 -- .tsv files (e.g. Anki flashcards) need real Tabs as separators, not spaces
 vim.api.nvim_create_autocmd("FileType", {
@@ -53,7 +57,7 @@ require("lazy").setup({
 -- =============================================================================
 
 -- Close the current tab/buffer with Space + q (without quitting Neovim)
-vim.keymap.set("n", "<leader>q", ":bdelete<CR>", { silent = true, desc = "Close current file" })
+-- vim.keymap.set("n", "<leader>q", ":bdelete<CR>", { silent = true, desc = "Close current file" })
 
 -- DISABLED: window navigation with Ctrl + h/j/k/l. Using the default Ctrl-w h/j/k/l (from normal mode)
 -- vim.keymap.set({ "n", "t" }, "<C-h>", "<Cmd>wincmd h<CR>", { desc = "Focus left window" })
@@ -66,7 +70,7 @@ vim.keymap.set("n", "<leader>q", ":bdelete<CR>", { silent = true, desc = "Close 
 -- vim.keymap.set("n", "<leader><S-Tab>", ":BufferLineCyclePrev<CR>", { silent = true, desc = "Previous file" })
 
 -- Toggle the Neo-tree explorer with Space + n (opens on the left, revealing the current file)
-vim.keymap.set('n', '<leader>n', ':Neotree filesystem toggle reveal left<CR>', { silent = true, desc = 'Toggle Neo-tree on the left' })
+-- vim.keymap.set('n', '<leader>n', ':Neotree filesystem toggle reveal left<CR>', { silent = true, desc = 'Toggle Neo-tree on the left' })
 
 -- Open terminal
 --[[--

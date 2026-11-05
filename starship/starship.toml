@@ -6,11 +6,14 @@ $directory\
 $git_status\
 $git_branch\
 $git_status\
+$custom\
 $package\
 $kubernetes\
 $aws\
 $nodejs\
 $php\
+$python\ 
+$ruby\
 $line_break\
 $character"""
 
@@ -48,6 +51,14 @@ style = "bold orange"
 truncation_length = 0
 truncate_to_repo = false
 style = "bold cyan"
+
+# =============================================================================
+# 5. GH User
+# =============================================================================
+[custom.gh_user]
+command = "awk '/user:/ {print $2}' ~/.config/gh/hosts.yml"
+when = "test -f ~/.config/gh/hosts.yml"
+format = "via [🐙 $output](bold purple) "
 
 [git_branch]
 symbol = " "

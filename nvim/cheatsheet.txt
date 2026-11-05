@@ -1,305 +1,40 @@
-# Custom shortcuts from this config ("vim-custom:"), followed by the standard Vim
-# cheat sheet from https://vim.rtorr.com (MIT License, github.com/rtorr/vim-cheat-sheet) ("vim:").
-# Section names (first column) are limited to 10 characters by cheatsheet.nvim.
+## tmux-nav
+all tmux shortcuts | Ctrl-b ?
+window new | Ctrl-b c
+window next/prev | Ctrl-b n / Ctrl-b p
+pane split vertical | Ctrl-b "
+pane split horizontal | Ctrl-b %
+pane nav | Ctrl-b arrows
+pane zoom | Ctrl-b z
+inchide panoul | Ctrl-d
 
-## c-files
-vim-custom: Leader key | Space
-vim-custom: Close current file (buffer) | <leader>q
-vim-custom: Next / previous file (tabs at the top) | ]b / [b
-vim-custom: Focus window left / down / up / right (normal mode) | Ctrl-w h / j / k / l
-vim-custom: Focus next (cycle) / previous window | Ctrl-w w / Ctrl-w p
-vim-custom: Toggle Neo-tree (opens at current file) | <leader>n
-vim-custom: Close Neo-tree from inside it / show its shortcuts | q / ?
-
-## c-search
-vim-custom: Find files by name (Telescope) | <leader>ff
-vim-custom: Search text in the whole project (live grep) | <leader>fg
-vim-custom: List open files (buffers) | <leader>fb
-vim-custom: Search Neovim help | <leader>fh
-
-## c-term
-vim-custom: Toggle bottom terminal (from normal mode) | <leader>t
-vim-custom: Terminal: back to Neovim normal mode (scroll / switch window) | Esc Esc (default: Ctrl-\ Ctrl-n)
-vim-custom: Terminal: single Esc = zsh normal mode (🅝), NOT Neovim | Esc
-vim-custom: Terminal: close it from inside | Esc Esc then <leader>t
-
-# DISABLED: autocomplete (blink.cmp) and LSP are commented out in lua/plugins/lsp.lua.
-# To re-enable, remove the leading "# " from the lines below.
-# ## c-complete
-# vim-custom: Accept suggestion | Enter
-# vim-custom: Next / previous suggestion | Ctrl-n / Ctrl-p or arrows
-# vim-custom: Open suggestions popup manually | Ctrl-Space
-# vim-custom: Close popup | Ctrl-e
-# vim-custom: Snippet: jump to next / previous field | Tab / Shift-Tab
-#
-# ## c-lsp
-# vim-custom: Go to definition | gd
-# vim-custom: Documentation for symbol under cursor | K
-# vim-custom: Rename across the project | <leader>rn
-# vim-custom: Code actions (quick fix, import etc.) | <leader>ca
-# vim-custom: Show diagnostic for current line | <leader>e
-
-## c-help
-vim-custom: Open this cheat sheet | <leader>?
-vim-custom: Active shortcuts in current buffer (which-key) | <leader>`
-
-## global
-vim: Open help for keyword | :h[elp] keyword
-vim: Save file as | :sav[eas] file
-vim: Close current pane | :clo[se]
-vim: Open a terminal window | :ter[minal]
-vim: Open man page for word under the cursor | K
-
-## motion
-vim: Move cursor left | h
-vim: Move cursor down | j
-vim: Move cursor up | k
-vim: Move cursor right | l
-vim: Move cursor down (multi-line text) | gj
-vim: Move cursor up (multi-line text) | gk
-vim: Move to top of screen | H
-vim: Move to middle of screen | M
-vim: Move to bottom of screen | L
-vim: Jump forwards to the start of a word | w
-vim: Jump forwards to the start of a word (words can contain punctuation) | W
-vim: Jump forwards to the end of a word | e
-vim: Jump forwards to the end of a word (words can contain punctuation) | E
-vim: Jump backwards to the start of a word | b
-vim: Jump backwards to the start of a word (words can contain punctuation) | B
-vim: Jump backwards to the end of a word | ge
-vim: Jump backwards to the end of a word (words can contain punctuation) | gE
-vim: Move cursor to matching character (default supported pairs: '()', '{}', '[]' - use :h matchpairs in vim for more info) | %
-vim: Jump to the start of the line | 0
-vim: Jump to the first non-blank character of the line | ^
-vim: Jump to the end of the line | $
-vim: Jump to the last non-blank character of the line | g_
-vim: Go to the first line of the document | gg
-vim: Go to the last line of the document | G
-vim: Go to line 5 | 5gg or 5G
-vim: Move to local declaration | gd
-vim: Move to global declaration | gD
-vim: Jump to next occurrence of character x | fx
-vim: Jump to before next occurrence of character x | tx
-vim: Jump to the previous occurrence of character x | Fx
-vim: Jump to after previous occurrence of character x | Tx
-vim: Repeat previous f, t, F or T movement | ;
-vim: Repeat previous f, t, F or T movement, backwards | ,
-vim: Jump to next paragraph (or function/block, when editing code) | }
-vim: Jump to previous paragraph (or function/block, when editing code) | {
-vim: Center cursor on screen | zz
-vim: Move screen down one line (without moving cursor) | Ctrl-e
-vim: Move screen up one line (without moving cursor) | Ctrl-y
-vim: Move screen up one page (cursor to last line) | Ctrl-b
-vim: Move screen down one page (cursor to first line) | Ctrl-f
-vim: Move cursor and screen down 1/2 page | Ctrl-d
-vim: Move cursor and screen up 1/2 page | Ctrl-u
-
-## insert
-vim: Insert before the cursor | i
-vim: Insert at the beginning of the line | I
-vim: Insert (append) after the cursor | a
-vim: Insert (append) at the end of the line | A
-vim: Append (open) a new line below the current line | o
-vim: Append (open) a new line above the current line | O
-vim: Insert (append) at the end of the word | ea
-vim: Delete the character before the cursor during insert mode | Ctrl-h
-vim: Delete word before the cursor during insert mode | Ctrl-w
-vim: Add a line break at the cursor position during insert mode | Ctrl-j
-vim: Indent (move right) line one shiftwidth during insert mode | Ctrl-t
-vim: De-indent (move left) line one shiftwidth during insert mode | Ctrl-d
-vim: Insert (auto-complete) next match before the cursor during insert mode | Ctrl-n
-vim: Insert (auto-complete) previous match before the cursor during insert mode | Ctrl-p
-vim: Insert the contents of register x | Ctrl-r x
-vim: Temporarily enter normal mode to issue one normal-mode command x. | Ctrl-o x
-vim: Exit insert mode | Esc or Ctrl-c
-
-## editing
-vim: Replace a single character. | r
-vim: Replace more than one character, until ESC is pressed. | R
-vim: Join line below to the current one with one space in between | J
-vim: Join line below to the current one without space in between | gJ
-vim: Reflow paragraph | gwip
-vim: Switch case up to motion | g~
-vim: Change to lowercase up to motion | gu
-vim: Change to uppercase up to motion | gU
-vim: Change (replace) entire line | cc
-vim: Change (replace) to the end of the line | c$ or C
-vim: Change (replace) entire word | ciw
-vim: Change (replace) to the end of the word | cw or ce
-vim: Delete character and substitute text (same as cl) | s
-vim: Delete line and substitute text (same as cc) | S
-vim: Transpose two letters (delete and paste) | xp
-vim: Undo | u
-vim: Restore (undo) last changed line | U
-vim: Redo | Ctrl-r
-vim: Repeat last command | .
-
-## visual
-vim: Start visual mode, mark lines, then do a command (like y-yank) | v
-vim: Start linewise visual mode | V
-vim: Move to other end of marked area | o
-vim: Start visual block mode | Ctrl-v
-vim: Move to other corner of block | O
-vim: Mark a word | aw
-vim: A block with () | ab
-vim: A block with {} | aB
-vim: A block with <> tags | at
-vim: Inner block with () | ib
-vim: Inner block with {} | iB
-vim: Inner block with <> tags | it
-vim: Exit visual mode | Esc or Ctrl-c
-
-## visual-cmd
-vim: Shift text right | >
-vim: Shift text left | <
-vim: Yank (copy) marked text | y
-vim: Delete marked text | d
-vim: Switch case | ~
-vim: Change marked text to lowercase | u
-vim: Change marked text to uppercase | U
-
-## registers
-vim: Show registers content | :reg[isters]
-vim: Yank into register x | "xy
-vim: Paste contents of register x | "xp
-vim: Yank into the system clipboard register | "+y
-vim: Paste from the system clipboard register | "+p
-
-## marks
-vim: List of marks | :marks
-vim: Set current position for mark A | ma
-vim: Jump to position of mark A | `a
-vim: Yank text to position of mark A | y`a
-vim: Go to the position where Vim was previously exited | `0
-vim: Go to the position when last editing this file | `"
-vim: Go to the position of the last change in this file | `.
-vim: Go to the position before the last jump | ``
-vim: List of jumps | :ju[mps]
-vim: Go to newer position in jump list | Ctrl-i
-vim: Go to older position in jump list | Ctrl-o
-vim: List of changes | :changes
-vim: Go to newer position in change list | g,
-vim: Go to older position in change list | g;
-vim: Jump to the tag under cursor | Ctrl-]
-
-## macros
-vim: Record macro a | qa
-vim: Stop recording macro | q
-vim: Run macro a | @a
-vim: Rerun last run macro | @@
-
-## copy-paste
-vim: Yank (copy) a line | yy
-vim: Yank (copy) 2 lines | 2yy
-vim: Yank (copy) the characters of the word from the cursor position to the start of the next word | yw
-vim: Yank (copy) word under the cursor | yiw
-vim: Yank (copy) word under the cursor and the space after or before it | yaw
-vim: Yank (copy) to end of line | y$ or Y
-vim: Put (paste) the clipboard after cursor | p
-vim: Put (paste) before cursor | P
-vim: Put (paste) the clipboard after cursor and leave cursor after the new text | gp
-vim: Put (paste) before cursor and leave cursor after the new text | gP
-vim: Delete (cut) a line | dd
-vim: Delete (cut) 2 lines | 2dd
-vim: Delete (cut) the characters of the word from the cursor position to the start of the next word | dw
-vim: Delete (cut) word under the cursor | diw
-vim: Delete (cut) word under the cursor and the space after or before it | daw
-vim: Delete lines starting from 3 to 5 | :3,5d
-vim: Delete all lines containing pattern | :g/{pattern}/d
-vim: Delete all lines not containing pattern | :g!/{pattern}/d
-vim: Delete (cut) to the end of the line | d$ or D
-vim: Delete (cut) character | x
-
-## indent
-vim: Indent (move right) line one shiftwidth | >>
-vim: De-indent (move left) line one shiftwidth | <<
-vim: Indent a block with () or {} (cursor on brace) | >%
-vim: De-indent a block with () or {} (cursor on brace) | <%
-vim: Indent inner block with () | >ib
-vim: Indent a block with <> tags | >at
-vim: Re-indent 3 lines | 3==
-vim: Re-indent a block with () or {} (cursor on brace) | =%
-vim: Re-indent inner block with {} | =iB
-vim: Re-indent entire buffer | gg=G
-vim: Paste and adjust indent to current line | ]p
-
-## exit
-vim: Write (save) the file, but don't exit | :w
-vim: Write out the current file using sudo | :w !sudo tee %
-vim: Write (save) and quit | :wq or :x or ZZ
-vim: Quit (fails if there are unsaved changes) | :q
-vim: Quit and throw away unsaved changes | :q! or ZQ
-vim: Write (save) and quit on all tabs | :wqa
-
-## search
-vim: Search for pattern | /pattern
-vim: Search backward for pattern | ?pattern
-vim: 'very magic' pattern: non-alphanumeric characters are interpreted as special regex symbols (no escaping needed) | \vpattern
-vim: Repeat search in same direction | n
-vim: Repeat search in opposite direction | N
-vim: Replace all old with new throughout file | :%s/old/new/g
-vim: Replace all old with new throughout file with confirmations | :%s/old/new/gc
-vim: Remove highlighting of search matches | :noh[lsearch]
-
-## search-all
-vim: Search for pattern in multiple files | :vim[grep] /pattern/ {`{file}`}
-vim: Jump to the next match | :cn[ext]
-vim: Jump to the previous match | :cp[revious]
-vim: Open a window containing the list of matches | :cope[n]
-vim: Close the quickfix window | :ccl[ose]
-
-## tabs
-vim: Open a file in a new tab | :tabnew or :tabnew {page.words.file}
-vim: Move the current split window into its own tab | Ctrl-w T
-vim: Move to the next tab | gt or :tabn[ext]
-vim: Move to the previous tab | gT or :tabp[revious]
-vim: Move to tab number N | #gt
-vim: Move current tab to the Nth position (indexed from 0) | :tabm[ove] #
-vim: Close the current tab and all its windows | :tabc[lose]
-vim: Close all tabs except for the current one | :tabo[nly]
-vim: Run the command on all tabs (e.g. :tabdo q - closes all opened tabs) | :tabdo command
+## tmux-edit
+new line | \ Enter
+copy/scroll mode | Ctrl-b [
+start selection / copy | Space / Enter
+copy mode exit | q
+paste | Ctrl-b ]
+copy to clipboard | Option + mouse
 
 ## buffers
-vim: Edit a file in a new buffer | :e[dit] file
-vim: Go to the next buffer | :bn[ext]
-vim: Go to the previous buffer | :bp[revious]
-vim: Delete a buffer (close a file) | :bd[elete]
-vim: Go to a buffer by index N | :b[uffer]#
-vim: Go to a buffer by file | :b[uffer] file
-vim: List all open buffers | :ls or :buffers
-vim: Open a file in a new buffer and split window | :sp[lit] file
-vim: Open a file in a new buffer and vertically split window | :vs[plit] file
-vim: Edit all buffers as vertical windows | :vert[ical] ba[ll]
-vim: Edit all buffers as tabs | :tab ba[ll]
-vim: Split window | Ctrl-w s
-vim: Split window vertically | Ctrl-w v
-vim: Switch windows | Ctrl-w w
-vim: Quit a window | Ctrl-w q
-vim: Exchange current window with next one | Ctrl-w x
-vim: Make all windows equal height & width | Ctrl-w =
-vim: Move cursor to the left window (vertical split) | Ctrl-w h
-vim: Move cursor to the right window (vertical split) | Ctrl-w l
-vim: Move cursor to the window below (horizontal split) | Ctrl-w j
-vim: Move cursor to the window above (horizontal split) | Ctrl-w k
-vim: Make current window full height at far left (leftmost vertical window) | Ctrl-w H
-vim: Make current window full height at far right (rightmost vertical window) | Ctrl-w L
-vim: Make current window full width at the very bottom (bottommost horizontal window) | Ctrl-w J
-vim: Make current window full width at the very top (topmost horizontal window) | Ctrl-w K
+open file | :e path/to/file
+open file from current file folder | :e %:h/ apoi Tab
+nav buffer left / right | ]b / [b
+prev buffer | Ctrl-^
+Telescope: search open buffers | :Telescope buffers
+ls open buffers | :ls
+close current buffer | :bd
 
-## diff
-vim: Manually define a fold up to motion | zf
-vim: Delete fold under the cursor | zd
-vim: Toggle fold under the cursor | za
-vim: Open fold under the cursor | zo
-vim: Close fold under the cursor | zc
-vim: Reduce (open) all folds by one level | zr
-vim: Fold more (close) all folds by one level | zm
-vim: Toggle folding functionality | zi
-vim: Jump to start of next change | ]c
-vim: Jump to start of previous change | [c
-vim: Obtain (get) difference (from other buffer) | do or :diffg[et]
-vim: Put difference (to other buffer) | dp or :diffpu[t]
-vim: Make current window part of diff | :diffthis
-vim: Update differences | :dif[fupdate]
-vim: Switch off diff mode for current window | :diffo[ff]
+## split
+split vertical | Ctrl-w s
+split horizontal | Ctrl-w v
+split and open another file | :sp fisier / :vs fisier
+nav between splits | Ctrl-w h / j / k / l
+close current split (file remains open) | Ctrl-w q
 
+## neotree
+switch between tree and file | Ctrl-w w
+navigate between splits | Ctrl-w h / Ctrl-w l
+new file ( trailing-/ for folder) | a
+rename | r
+delete | d

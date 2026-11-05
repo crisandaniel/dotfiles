@@ -1,0 +1,337 @@
+# Custom shortcuts from this config ("vim-custom:"), followed by the standard Vim
+# cheat sheet from https://vim.rtorr.com (MIT License, github.com/rtorr/vim-cheat-sheet) ("v:").
+# Section names (first column) are limited to 10 characters by cheatsheet.nvim.
+
+## c-tmux
+tmux: New window | Ctrl-b c
+tmux: Next / previous window | Ctrl-b n / Ctrl-b p
+tmux: Switch to window 0..9 | Ctrl-b 0..9
+tmux: Rename current window | Ctrl-b ,
+tmux: Split pane horizontally | Ctrl-b "
+tmux: Split pane vertically | Ctrl-b %
+tmux: Switch between panes | Ctrl-b ArrowKeys
+tmux: Close current pane | Ctrl-b x
+tmux: Toggle pane zoom (fullscreen) | Ctrl-b z
+tmux: Detach session | Ctrl-b d
+
+## c-neotree
+# neotree: Toggle Neo-tree window | <leader>n or :Neotree toggle
+# neotree: Reveal current file in Neo-tree | :Neotree reveal
+# neotree: Open file / enter directory | Enter or o
+# neotree: Add new file (or directory with trailing /) | a
+# neotree: Delete file / directory | d
+# neotree: Rename file / directory | r
+# neotree: Toggle hidden files (.dotfiles) | H
+# neotree: Filter files in current view | /
+# neotree: Close Neo-tree window | q
+
+## c-tele-fb
+tele-fb: Open file browser in current working directory | :Telescope file_browser
+tele-fb: Open file browser in active file directory | :Telescope file_browser path=%:p:h
+tele-fb: Open file browser at absolute path | :Telescope file_browser path=/absolute/path
+tele-fb: Search folders only (hide files) | :Telescope file_browser files=false
+tele-fb: Toggle between files and folders mode | Ctrl-f
+tele-fb: Go up to parent directory | Backspace (on empty prompt)
+tele-fb: Go to home directory (~) | Alt-e
+tele-fb: Go to current working directory (CWD) | Alt-w
+
+## c-files
+vim-custom: Leader key | Space
+vim-custom: Close current file (buffer) | <leader>q
+vim-custom: Next / previous file (tabs at the top) | ]b / [b
+vim-custom: Focus window left / down / up / right (normal mode) | Ctrl-w h / j / k / l
+vim-custom: Focus next (cycle) / previous window | Ctrl-w w / Ctrl-w p
+vim-custom: Toggle Neo-tree (opens at current file) | <leader>n
+vim-custom: Close Neo-tree from inside it / show its shortcuts | q / ?
+
+## c-search
+vim-custom: Find files by name (Telescope) | <leader>ff
+vim-custom: Search text in the whole project (live grep) | <leader>fg
+vim-custom: List open files (buffers) | <leader>fb
+vim-custom: Search Neovim help | <leader>fh
+
+## c-term
+vim-custom: Toggle bottom terminal (from normal mode) | <leader>t
+vim-custom: Terminal: back to Neovim normal mode (scroll / switch window) | Esc Esc (default: Ctrl-\ Ctrl-n)
+vim-custom: Terminal: single Esc = zsh normal mode (🅝), NOT Neovim | Esc
+vim-custom: Terminal: close it from inside | Esc Esc then <leader>t
+
+# DISABLED: autocomplete (blink.cmp) and LSP are commented out in lua/plugins/lsp.lua.
+# To re-enable, remove the leading "# " from the lines below.
+# ## c-complete
+# vim-custom: Accept suggestion | Enter
+# vim-custom: Next / previous suggestion | Ctrl-n / Ctrl-p or arrows
+# vim-custom: Open suggestions popup manually | Ctrl-Space
+# vim-custom: Close popup | Ctrl-e
+# vim-custom: Snippet: jump to next / previous field | Tab / Shift-Tab
+#
+# ## c-lsp
+# vim-custom: Go to definition | gd
+# vim-custom: Documentation for symbol under cursor | K
+# vim-custom: Rename across the project | <leader>rn
+# vim-custom: Code actions (quick fix, import etc.) | <leader>ca
+# vim-custom: Show diagnostic for current line | <leader>e
+
+## c-help
+vim-custom: Open this cheat sheet | <leader>?
+vim-custom: Active shortcuts in current buffer (which-key) | <leader>`
+
+# ## global
+# v: Open help for keyword | :h[elp] keyword
+# v: Save file as | :sav[eas] file
+# v: Close current pane | :clo[se]
+# v: Open a terminal window | :ter[minal]
+# v: Open man page for word under the cursor | K
+# 
+# ## motion
+# v: Move cursor left | h
+# v: Move cursor down | j
+# v: Move cursor up | k
+# v: Move cursor right | l
+# v: Move cursor down (multi-line text) | gj
+# v: Move cursor up (multi-line text) | gk
+# v: Move to top of screen | H
+# v: Move to middle of screen | M
+# v: Move to bottom of screen | L
+# v: Jump forwards to the start of a word | w
+# v: Jump forwards to the start of a word (words can contain punctuation) | W
+# v: Jump forwards to the end of a word | e
+# v: Jump forwards to the end of a word (words can contain punctuation) | E
+# v: Jump backwards to the start of a word | b
+# v: Jump backwards to the start of a word (words can contain punctuation) | B
+# v: Jump backwards to the end of a word | ge
+# v: Jump backwards to the end of a word (words can contain punctuation) | gE
+# v: Move cursor to matching character (default supported pairs: '()', '{}', '[]' - use :h matchpairs in vim for more info) | %
+# v: Jump to the start of the line | 0
+# v: Jump to the first non-blank character of the line | ^
+# v: Jump to the end of the line | $
+# v: Jump to the last non-blank character of the line | g_
+# v: Go to the first line of the document | gg
+# v: Go to the last line of the document | G
+# v: Go to line 5 | 5gg or 5G
+# v: Move to local declaration | gd
+# v: Move to global declaration | gD
+# v: Jump to next occurrence of character x | fx
+# v: Jump to before next occurrence of character x | tx
+# v: Jump to the previous occurrence of character x | Fx
+# v: Jump to after previous occurrence of character x | Tx
+# v: Repeat previous f, t, F or T movement | ;
+# v: Repeat previous f, t, F or T movement, backwards | ,
+# v: Jump to next paragraph (or function/block, when editing code) | }
+# v: Jump to previous paragraph (or function/block, when editing code) | {
+# v: Center cursor on screen | zz
+# v: Move screen down one line (without moving cursor) | Ctrl-e
+# v: Move screen up one line (without moving cursor) | Ctrl-y
+# v: Move screen up one page (cursor to last line) | Ctrl-b
+# v: Move screen down one page (cursor to first line) | Ctrl-f
+# v: Move cursor and screen down 1/2 page | Ctrl-d
+# v: Move cursor and screen up 1/2 page | Ctrl-u
+# 
+# ## insert
+# v: Insert before the cursor | i
+# v: Insert at the beginning of the line | I
+# v: Insert (append) after the cursor | a
+# v: Insert (append) at the end of the line | A
+# v: Append (open) a new line below the current line | o
+# v: Append (open) a new line above the current line | O
+# v: Insert (append) at the end of the word | ea
+# v: Delete the character before the cursor during insert mode | Ctrl-h
+# v: Delete word before the cursor during insert mode | Ctrl-w
+# v: Add a line break at the cursor position during insert mode | Ctrl-j
+# v: Indent (move right) line one shiftwidth during insert mode | Ctrl-t
+# v: De-indent (move left) line one shiftwidth during insert mode | Ctrl-d
+# v: Insert (auto-complete) next match before the cursor during insert mode | Ctrl-n
+# v: Insert (auto-complete) previous match before the cursor during insert mode | Ctrl-p
+# v: Insert the contents of register x | Ctrl-r x
+# v: Temporarily enter normal mode to issue one normal-mode command x. | Ctrl-o x
+# v: Exit insert mode | Esc or Ctrl-c
+# 
+# ## editing
+# v: Replace a single character. | r
+# v: Replace more than one character, until ESC is pressed. | R
+# v: Join line below to the current one with one space in between | J
+# v: Join line below to the current one without space in between | gJ
+# v: Reflow paragraph | gwip
+# v: Switch case up to motion | g~
+# v: Change to lowercase up to motion | gu
+# v: Change to uppercase up to motion | gU
+# v: Change (replace) entire line | cc
+# v: Change (replace) to the end of the line | c$ or C
+# v: Change (replace) entire word | ciw
+# v: Change (replace) to the end of the word | cw or ce
+# v: Delete character and substitute text (same as cl) | s
+# v: Delete line and substitute text (same as cc) | S
+# v: Transpose two letters (delete and paste) | xp
+# v: Undo | u
+# v: Restore (undo) last changed line | U
+# v: Redo | Ctrl-r
+# v: Repeat last command | .
+# 
+# ## visual
+# v: Start visual mode, mark lines, then do a command (like y-yank) | v
+# v: Start linewise visual mode | V
+# v: Move to other end of marked area | o
+# v: Start visual block mode | Ctrl-v
+# v: Move to other corner of block | O
+# v: Mark a word | aw
+# v: A block with () | ab
+# v: A block with {} | aB
+# v: A block with <> tags | at
+# v: Inner block with () | ib
+# v: Inner block with {} | iB
+# v: Inner block with <> tags | it
+# v: Exit visual mode | Esc or Ctrl-c
+# 
+# ## visual-cmd
+# v: Shift text right | >
+# v: Shift text left | <
+# v: Yank (copy) marked text | y
+# v: Delete marked text | d
+# v: Switch case | ~
+# v: Change marked text to lowercase | u
+# v: Change marked text to uppercase | U
+# 
+# ## registers
+# v: Show registers content | :reg[isters]
+# v: Yank into register x | "xy
+# v: Paste contents of register x | "xp
+# v: Yank into the system clipboard register | "+y
+# v: Paste from the system clipboard register | "+p
+# 
+# ## marks
+# v: List of marks | :marks
+# v: Set current position for mark A | ma
+# v: Jump to position of mark A | `a
+# v: Yank text to position of mark A | y`a
+# v: Go to the position where Vim was previously exited | `0
+# v: Go to the position when last editing this file | `"
+# v: Go to the position of the last change in this file | `.
+# v: Go to the position before the last jump | ``
+# v: List of jumps | :ju[mps]
+# v: Go to newer position in jump list | Ctrl-i
+# v: Go to older position in jump list | Ctrl-o
+# v: List of changes | :changes
+# v: Go to newer position in change list | g,
+# v: Go to older position in change list | g;
+# v: Jump to the tag under cursor | Ctrl-]
+# 
+# ## macros
+# v: Record macro a | qa
+# v: Stop recording macro | q
+# v: Run macro a | @a
+# v: Rerun last run macro | @@
+# 
+# ## copy-paste
+# v: Yank (copy) a line | yy
+# v: Yank (copy) 2 lines | 2yy
+# v: Yank (copy) the characters of the word from the cursor position to the start of the next word | yw
+# v: Yank (copy) word under the cursor | yiw
+# v: Yank (copy) word under the cursor and the space after or before it | yaw
+# v: Yank (copy) to end of line | y$ or Y
+# v: Put (paste) the clipboard after cursor | p
+# v: Put (paste) before cursor | P
+# v: Put (paste) the clipboard after cursor and leave cursor after the new text | gp
+# v: Put (paste) before cursor and leave cursor after the new text | gP
+# v: Delete (cut) a line | dd
+# v: Delete (cut) 2 lines | 2dd
+# v: Delete (cut) the characters of the word from the cursor position to the start of the next word | dw
+# v: Delete (cut) word under the cursor | diw
+# v: Delete (cut) word under the cursor and the space after or before it | daw
+# v: Delete lines starting from 3 to 5 | :3,5d
+# v: Delete all lines containing pattern | :g/{pattern}/d
+# v: Delete all lines not containing pattern | :g!/{pattern}/d
+# v: Delete (cut) to the end of the line | d$ or D
+# v: Delete (cut) character | x
+# 
+# ## indent
+# v: Indent (move right) line one shiftwidth | >>
+# v: De-indent (move left) line one shiftwidth | <<
+# v: Indent a block with () or {} (cursor on brace) | >%
+# v: De-indent a block with () or {} (cursor on brace) | <%
+# v: Indent inner block with () | >ib
+# v: Indent a block with <> tags | >at
+# v: Re-indent 3 lines | 3==
+# v: Re-indent a block with () or {} (cursor on brace) | =%
+# v: Re-indent inner block with {} | =iB
+# v: Re-indent entire buffer | gg=G
+# v: Paste and adjust indent to current line | ]p
+# 
+# ## exit
+# v: Write (save) the file, but don't exit | :w
+# v: Write out the current file using sudo | :w !sudo tee %
+# v: Write (save) and quit | :wq or :x or ZZ
+# v: Quit (fails if there are unsaved changes) | :q
+# v: Quit and throw away unsaved changes | :q! or ZQ
+# v: Write (save) and quit on all tabs | :wqa
+# 
+# ## search
+# v: Search for pattern | /pattern
+# v: Search backward for pattern | ?pattern
+# v: 'very magic' pattern: non-alphanumeric characters are interpreted as special regex symbols (no escaping needed) | \vpattern
+# v: Repeat search in same direction | n
+# v: Repeat search in opposite direction | N
+# v: Replace all old with new throughout file | :%s/old/new/g
+# v: Replace all old with new throughout file with confirmations | :%s/old/new/gc
+# v: Remove highlighting of search matches | :noh[lsearch]
+# 
+# ## search-all
+# v: Search for pattern in multiple files | :vim[grep] /pattern/ {`{file}`}
+# v: Jump to the next match | :cn[ext]
+# v: Jump to the previous match | :cp[revious]
+# v: Open a window containing the list of matches | :cope[n]
+# v: Close the quickfix window | :ccl[ose]
+# 
+# ## tabs
+# v: Open a file in a new tab | :tabnew or :tabnew {page.words.file}
+# v: Move the current split window into its own tab | Ctrl-w T
+# v: Move to the next tab | gt or :tabn[ext]
+# v: Move to the previous tab | gT or :tabp[revious]
+# v: Move to tab number N | #gt
+# v: Move current tab to the Nth position (indexed from 0) | :tabm[ove] #
+# v: Close the current tab and all its windows | :tabc[lose]
+# v: Close all tabs except for the current one | :tabo[nly]
+# v: Run the command on all tabs (e.g. :tabdo q - closes all opened tabs) | :tabdo command
+# 
+# ## buffers
+# v: Edit a file in a new buffer | :e[dit] file
+# v: Go to the next buffer | :bn[ext]
+# v: Go to the previous buffer | :bp[revious]
+# v: Delete a buffer (close a file) | :bd[elete]
+# v: Go to a buffer by index N | :b[uffer]#
+# v: Go to a buffer by file | :b[uffer] file
+# v: List all open buffers | :ls or :buffers
+# v: Open a file in a new buffer and split window | :sp[lit] file
+# v: Open a file in a new buffer and vertically split window | :vs[plit] file
+# v: Edit all buffers as vertical windows | :vert[ical] ba[ll]
+# v: Edit all buffers as tabs | :tab ba[ll]
+# v: Split window | Ctrl-w s
+# v: Split window vertically | Ctrl-w v
+# v: Switch windows | Ctrl-w w
+# v: Quit a window | Ctrl-w q
+# v: Exchange current window with next one | Ctrl-w x
+# v: Make all windows equal height & width | Ctrl-w =
+# v: Move cursor to the left window (vertical split) | Ctrl-w h
+# v: Move cursor to the right window (vertical split) | Ctrl-w l
+# v: Move cursor to the window below (horizontal split) | Ctrl-w j
+# v: Move cursor to the window above (horizontal split) | Ctrl-w k
+# v: Make current window full height at far left (leftmost vertical window) | Ctrl-w H
+# v: Make current window full height at far right (rightmost vertical window) | Ctrl-w L
+# v: Make current window full width at the very bottom (bottommost horizontal window) | Ctrl-w J
+# v: Make current window full width at the very top (topmost horizontal window) | Ctrl-w K
+# 
+# ## diff
+# v: Manually define a fold up to motion | zf
+# v: Delete fold under the cursor | zd
+# v: Toggle fold under the cursor | za
+# v: Open fold under the cursor | zo
+# v: Close fold under the cursor | zc
+# v: Reduce (open) all folds by one level | zr
+# v: Fold more (close) all folds by one level | zm
+# v: Toggle folding functionality | zi
+# v: Jump to start of next change | ]c
+# v: Jump to start of previous change | [c
+# v: Obtain (get) difference (from other buffer) | do or :diffg[et]
+# v: Put difference (to other buffer) | dp or :diffpu[t]
+# v: Make current window part of diff | :diffthis
+# v: Update differences | :dif[fupdate]
+# v: Switch off diff mode for current window | :diffo[ff]

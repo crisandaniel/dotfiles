@@ -1,23 +1,35 @@
+-- Fuzzy finder. No keymaps on purpose: use the commands directly.
+--   :Telescope find_files   -> type part of a file name, Enter opens it
+--   :Telescope <Tab>        -> list every available picker
 return {
   {
     'nvim-telescope/telescope.nvim',
     version = '*',
-    dependencies = { 
+    cmd = 'Telescope',
+    dependencies = {
       'nvim-lua/plenary.nvim',
-      -- Native extension declared as a direct dependency here:
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      'nvim-telescope/telescope-file-browser.nvim',
     },
     config = function()
-      local builtin = require('telescope.builtin')
-
-      -- Load the FZF extension into Telescope after startup
+      require('telescope').setup({
+        defaults = {
+          -- Wider window, smaller preview: more room for the file list
+          layout_config = {
+            horizontal = { width = 0.95, preview_width = 0.4 },
+          },
+          -- Show "init.lua  nvim/" instead of "nvim/init.lua", so the name is never cut off
+          path_display = { 'filename_first' },
+        },
+        extensions = {
+          file_browser = {
+            -- Empty prompt: show only the current folder. Once you type: search all subfolders too.
+            auto_depth = true,
+          },
+        },
+      })
       pcall(require('telescope').load_extension, 'fzf')
-  
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-    end
+      require('telescope').load_extension('file_browser')
+    end,
   },
 }
-

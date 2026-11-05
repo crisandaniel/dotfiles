@@ -171,3 +171,6 @@ function zvm_after_init() {
   zle reset-prompt
 }
 
+# if [ -z "$TMUX" ] && [ -n "$PS1" ] && [[ ! "$TERM_PROGRAM" =~ "vscode" ]]; then
+#    exec tmux
+# fi
